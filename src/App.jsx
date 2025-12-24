@@ -34,6 +34,21 @@ function App() {
   const [secretWord, setSecretWord] = useState('');
   const [importError, setImportError] = useState('');
   const [configTab, setConfigTab] = useState('game'); // game | words | transfer
+  // pageview por pestaña
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.gtag) return;
+    const page =
+      step === 'config'
+        ? `/config/${configTab}`
+        : step === 'lobby'
+          ? '/jugar'
+          : `/${step}`;
+    window.gtag('event', 'page_view', {
+      page_path: page,
+      page_location: window.location.href,
+      page_title: document.title,
+    });
+  }, [step, configTab]);
   const availableCategories = useMemo(() => {
     const merged = { ...categories };
     Object.entries(customCategories).forEach(([key, words]) => {
@@ -209,11 +224,19 @@ function App() {
       name,
       role: impostorSet.has(name) ? 'Impostor' : randomWord || 'Tripulante',
     }));
+    // GA: evento de partida iniciada
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'game_start', {
+        players: cleanNames.length,
+        impostors: impostorCount,
+        category: categoryLabels[wordCategory] || wordCategory,
+        total_games: history.length + 1,
+      });
+    }
     setRoles(assigned);
     setRevealIndex(0);
     setRevealed(false);
     setAllRevealed(false);
-    setStarted(true);
     setSecretWord(randomWord || '');
     setHistory((prev) => {
       const next = [
