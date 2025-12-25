@@ -12,6 +12,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ["react", "react-dom"],
+          words: ["/src/data/words.js"],
         },
       },
     },

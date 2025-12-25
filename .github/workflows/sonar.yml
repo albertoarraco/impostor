@@ -35,6 +35,9 @@ jobs:
       - name: Run unit tests (coverage lcov)
         run: pnpm test -- --coverage --reporter=lcov
 
+      - name: Run e2e tests (chromium)
+        run: pnpm test:e2e
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         env:

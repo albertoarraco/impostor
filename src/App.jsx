@@ -1,15 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import HeaderNav from "./components/HeaderNav";
-import HomePanel from "./components/HomePanel";
-import ConfigPanel from "./components/ConfigPanel";
-import LobbyPanel from "./components/LobbyPanel";
-import HistoryList from "./components/HistoryList";
-import WordsPanel from "./components/WordsPanel";
-import TransferPanel from "./components/TransferPanel";
-import OnboardingOverlay from "./components/onboarding/OnboardingOverlay";
 import { useOnboardingContext } from "./components/onboarding/OnboardingContext";
 import { useGame } from "./contexts/GameStateContext";
 import "./App.css";
+
+const HomePanel = lazy(() => import("./components/HomePanel"));
+const ConfigPanel = lazy(() => import("./components/ConfigPanel"));
+const LobbyPanel = lazy(() => import("./components/LobbyPanel"));
+const HistoryList = lazy(() => import("./components/HistoryList"));
+const WordsPanel = lazy(() => import("./components/WordsPanel"));
+const TransferPanel = lazy(() => import("./components/TransferPanel"));
+const OnboardingOverlay = lazy(() => import("./components/onboarding/OnboardingOverlay"));
 
 function App() {
   const {
@@ -50,53 +51,55 @@ function App() {
         </div>
       </header>
 
-      {step === "home" && <HomePanel />}
+      <Suspense fallback={<div className="panel">Cargando…</div>}>
+        {step === "home" && <HomePanel />}
 
-      {step === "config" && (
-        <section className="panel">
-          <div className="actions" style={{ gap: "8px", flexWrap: "wrap" }}>
-            <button
-              className={`btn ${configTab === "game" ? "primary" : ""}`}
-              type="button"
-              onClick={() => setConfigTab("game")}
-            >
-              Configuración del juego
-            </button>
-            <button
-              className={`btn ${configTab === "words" ? "primary" : ""}`}
-              type="button"
-              onClick={() => setConfigTab("words")}
-            >
-              Palabras
-            </button>
-            <button
-              className={`btn ${configTab === "transfer" ? "primary" : ""}`}
-              type="button"
-              onClick={() => setConfigTab("transfer")}
-            >
-              Compartir
-            </button>
-          </div>
+        {step === "config" && (
+          <section className="panel">
+            <div className="actions" style={{ gap: "8px", flexWrap: "wrap" }}>
+              <button
+                className={`btn ${configTab === "game" ? "primary" : ""}`}
+                type="button"
+                onClick={() => setConfigTab("game")}
+              >
+                Configuración del juego
+              </button>
+              <button
+                className={`btn ${configTab === "words" ? "primary" : ""}`}
+                type="button"
+                onClick={() => setConfigTab("words")}
+              >
+                Palabras
+              </button>
+              <button
+                className={`btn ${configTab === "transfer" ? "primary" : ""}`}
+                type="button"
+                onClick={() => setConfigTab("transfer")}
+              >
+                Compartir
+              </button>
+            </div>
 
-          <div style={{ marginTop: "16px" }}>
-            {configTab === "game" && <ConfigPanel />}
+            <div style={{ marginTop: "16px" }}>
+              {configTab === "game" && <ConfigPanel />}
 
-            {configTab === "words" && <WordsPanel />}
+              {configTab === "words" && <WordsPanel />}
 
-            {configTab === "transfer" && <TransferPanel />}
-          </div>
-        </section>
-      )}
+              {configTab === "transfer" && <TransferPanel />}
+            </div>
+          </section>
+        )}
 
-      {step === "lobby" && <LobbyPanel />}
+        {step === "lobby" && <LobbyPanel />}
 
-      {step === "history" && <HistoryList />}
+        {step === "history" && <HistoryList />}
 
-      {step === "palabras" && <WordsPanel />}
+        {step === "palabras" && <WordsPanel />}
 
-      {step === "transfer" && <TransferPanel />}
+        {step === "transfer" && <TransferPanel />}
 
-      {showOnboarding && <OnboardingOverlay />}
+        {showOnboarding && <OnboardingOverlay />}
+      </Suspense>
     </div>
   );
 }

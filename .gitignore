@@ -4,4 +4,7 @@ dist
 .vscode
 .DS_Store
 coverage
+playwright-report
+test-results
+trace.zip
 *.log
