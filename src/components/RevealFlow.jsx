@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 function RevealFlow({
   currentPlayer,
   revealed,
@@ -29,3 +31,14 @@ function RevealFlow({
 }
 
 export default RevealFlow;
+
+RevealFlow.propTypes = {
+  currentPlayer: PropTypes.shape({
+    name: PropTypes.string,
+    role: PropTypes.string,
+  }),
+  revealed: PropTypes.bool.isRequired,
+  onReveal: PropTypes.func.isRequired,
+  onNext: PropTypes.func.isRequired,
+  isLast: PropTypes.bool.isRequired,
+};

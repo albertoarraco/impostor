@@ -37,9 +37,9 @@ function ConfigPanel() {
       </div>
      <div className="panel-separator" />
       <div className="field">
-        <label>Categoría de palabra</label>
+        <label htmlFor="word-category">Categoría de palabra</label>
         <p className="muted small" style={{ marginTop: '4px' }}>Categorías base</p>
-        <div className="category-group">
+        <div className="category-group" role="radiogroup" aria-labelledby="word-category">
           {words.baseCategoryOptions.map((cat) => (
             <button
               key={cat.key}
@@ -54,7 +54,7 @@ function ConfigPanel() {
         {words.customCategoryOptions.length > 0 && (
           <>
             <p className="muted small" style={{ marginTop: '10px' }}>Categorías personalizadas</p>
-            <div className="category-group">
+            <div className="category-group" role="radiogroup" aria-labelledby="word-category">
               {words.customCategoryOptions.map((cat) => (
                 <button
                   key={cat.key}

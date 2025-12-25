@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import PropTypes from 'prop-types';
 import { useGame } from "../../contexts/GameStateContext";
 import useOnboarding from "./useOnboarding";
 
@@ -21,3 +22,7 @@ export function useOnboardingContext() {
 }
 
 export default OnboardingContext;
+
+OnboardingProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};

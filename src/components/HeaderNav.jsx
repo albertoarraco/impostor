@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const steps = {
   home: 'Inicio',
   lobby: 'Jugar partida',
@@ -21,6 +23,11 @@ function HeaderNav({ step, onStepChange }) {
     </div>
   );
 }
+
+HeaderNav.propTypes = {
+  step: PropTypes.oneOf(['home', 'lobby', 'history', 'config']).isRequired,
+  onStepChange: PropTypes.func.isRequired,
+};
 
 export { steps };
 export default HeaderNav;

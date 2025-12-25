@@ -32,7 +32,7 @@ function WordsPanel() {
       <p className="muted">Gestiona categorías personalizadas o añade palabras extra a cualquier categoría.</p>
       <div className="panel-separator" />
       <div className="field">
-        <label>Palabras extra en categorías base</label>
+        <label htmlFor="extra-words-base">Palabras extra en categorías base</label>
         <div className="names-list">
           {baseOnly.map((cat) => {
             const extraCount = extraWords[cat.key]?.length || 0;
@@ -107,7 +107,7 @@ function WordsPanel() {
       <div className="panel-separator" />
       {allCustom.length > 0 && (
         <div className="field">
-          <label>Categorías personalizadas</label>
+          <label htmlFor="custom-categories">Categorías personalizadas</label>
           <div className="names-list">
             {allCustom.map(([name, words]) => (
               <div
@@ -191,8 +191,9 @@ function WordsPanel() {
         </div>
       )}
       <div className="field">
-        <label>Nueva categoría personalizada</label>
+        <label htmlFor="new-category-name">Nueva categoría personalizada</label>
         <input
+          id="new-category-name"
           type="text"
           placeholder="Nombre de la categoría"
           value={newCatName}

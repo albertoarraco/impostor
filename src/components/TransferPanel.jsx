@@ -63,7 +63,7 @@ function TransferPanel() {
       </div>
 
       <div className="field">
-        <label>Exportar</label>
+        <label htmlFor="export-section">Exportar</label>
         <p className="muted small">Copia el JSON para compartir configuraciones</p>
         <div className="actions" style={{ gap: '10px', flexWrap: 'wrap' }}>
           <button className="btn" type="button" onClick={exportData}>
@@ -76,7 +76,7 @@ function TransferPanel() {
 
      <div className="panel-separator" />
       <div className="field">
-        <label>Importar</label>
+        <label htmlFor="transfer-json">Importar</label>
         <div className="field" style={{ marginTop: '12px' }}>
           <textarea
             id="transfer-json"
