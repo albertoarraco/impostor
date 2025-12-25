@@ -5,6 +5,7 @@ import TransferPanel from "../../src/components/TransferPanel";
 let setImportError;
 let setCustomCategories;
 let setExtraWords;
+let clipboardMock;
 
 vi.mock("../../src/contexts/GameStateContext", () => ({
   useGame: () => ({
@@ -24,14 +25,18 @@ describe("TransferPanel", () => {
     setImportError = vi.fn();
     setCustomCategories = vi.fn();
     setExtraWords = vi.fn();
-    vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue();
+    clipboardMock = { writeText: vi.fn().mockResolvedValue() };
+    Object.defineProperty(global.navigator, "clipboard", {
+      value: clipboardMock,
+      writable: true,
+    });
   });
 
   it("exporta a portapapeles sin lanzar error", async () => {
     render(<TransferPanel />);
     const exportBtn = screen.getByText(/Exportar a JSON/i);
     fireEvent.click(exportBtn);
-    expect(navigator.clipboard.writeText).toHaveBeenCalled();
+    expect(clipboardMock.writeText).toHaveBeenCalled();
   });
 
   it("muestra error si el JSON es inválido al importar", () => {

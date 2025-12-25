@@ -34,7 +34,8 @@ describe("WordsPanel", () => {
 
   it("guarda extras en categoría base", () => {
     render(<WordsPanel />);
-    fireEvent.click(screen.getByText("Editar"));
+    const editButtons = screen.getAllByText("Editar");
+    fireEvent.click(editButtons[0]); // base category edit
     const textarea = screen.getByPlaceholderText(/Palabras extra separadas/i);
     fireEvent.change(textarea, { target: { value: "uno, dos" } });
     fireEvent.click(screen.getByText("Guardar extras"));
