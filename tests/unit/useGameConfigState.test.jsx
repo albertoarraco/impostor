@@ -1,4 +1,4 @@
-aimport { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
+import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
 import { render, waitFor } from "@testing-library/react";
 import useGameConfigState from "../../src/hooks/game/useGameConfigState";
 
