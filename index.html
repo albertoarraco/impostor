@@ -53,6 +53,7 @@
       // Preload de CSS y modulepreload de JS usando el manifest de Vite para acortar la ruta crítica
       (function () {
         const base = "/impostor/";
+        // Vite genera el manifest en .vite/manifest.json y lo copiamos a dist/manifest.json
         const manifestUrl = base + "manifest.json";
         fetch(manifestUrl)
           .then((r) => (r.ok ? r.json() : null))
