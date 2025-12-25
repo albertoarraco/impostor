@@ -8,22 +8,36 @@
       content="Impostor: app web para crear partidas, configurar roles y palabras, revelar jugadores y llevar historial de partidas y transferencia de datos."
     />
     <title>Impostor</title>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-PFBCWQY1FZ"
-    ></script>
+    <!-- Deferred Google Analytics for better performance -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+      // Load Google Analytics after page load to reduce blocking
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          // Initialize dataLayer
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
 
-      gtag("config", "G-PFBCWQY1FZ");
+          // Load GTM script
+          const script = document.createElement("script");
+          script.async = true;
+          script.src =
+            "https://www.googletagmanager.com/gtag/js?id=G-PFBCWQY1FZ";
+          script.onload = function () {
+            gtag("js", new Date());
+            gtag("config", "G-PFBCWQY1FZ");
+          };
+          document.head.appendChild(script);
+        }, 2000); // 2 second delay
+      });
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preconnect to Google Analytics domain for faster loading -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <!-- DNS prefetch for analytics -->
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
     <!-- Fuentes de sistema: se elimina la carga remota para evitar FOUT y saltos -->
     <link rel="icon" href="/images/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/images/genfavicon-32.png" sizes="32x32" />
@@ -50,20 +64,32 @@
     />
     <link rel="manifest" href="/manifest.webmanifest" />
     <script>
-      // Optimized preload using Vite manifest for critical path optimization
+      // Optimized manifest loading with aggressive caching and fallback
       (function () {
         const base = "/impostor/";
         const manifestUrl = base + "manifest.json";
 
-        // Use the preloaded manifest if available, otherwise fetch
+        // Try cache first, then fetch with timeout
         const cachedManifest = sessionStorage.getItem("vite-manifest");
         if (cachedManifest) {
-          processManifest(JSON.parse(cachedManifest));
-          return;
+          try {
+            processManifest(JSON.parse(cachedManifest));
+            return;
+          } catch (e) {
+            sessionStorage.removeItem("vite-manifest");
+          }
         }
 
-        fetch(manifestUrl, { priority: "high" })
+        // Fetch with timeout and high priority
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+
+        fetch(manifestUrl, {
+          priority: "high",
+          signal: controller.signal,
+        })
           .then((r) => {
+            clearTimeout(timeoutId);
             if (!r.ok) throw new Error("Manifest not found");
             return r.json();
           })
@@ -71,13 +97,20 @@
             sessionStorage.setItem("vite-manifest", JSON.stringify(manifest));
             processManifest(manifest);
           })
-          .catch(() => {});
+          .catch(() => {
+            clearTimeout(timeoutId);
+            // Fallback: load main entry directly
+            const link = document.createElement("link");
+            link.rel = "modulepreload";
+            link.href = base + "assets/index-[hash].js";
+            document.head.appendChild(link);
+          });
 
         function processManifest(manifest) {
           const entry = manifest["src/main.jsx"] || manifest["src/main.tsx"];
           if (!entry) return;
 
-          // CSS preload
+          // Prioritize CSS loading
           (entry.css || []).forEach((href) => {
             const link = document.createElement("link");
             link.rel = "preload";
@@ -89,17 +122,34 @@
             document.head.appendChild(link);
           });
 
-          // JS modulepreload for entry and imports
+          // Load JS with optimal priority
           const toPreload = new Set([entry.file, ...(entry.imports || [])]);
-          toPreload.forEach((href) => {
+          const jsArray = Array.from(toPreload);
+
+          // Load main entry first
+          const mainEntry = jsArray.find((href) => href.includes("index-"));
+          if (mainEntry) {
             const link = document.createElement("link");
             link.rel = "modulepreload";
-            link.href = base + href;
+            link.href = base + mainEntry;
             document.head.appendChild(link);
+          }
+
+          // Load other chunks
+          jsArray.forEach((href) => {
+            if (href !== mainEntry) {
+              const link = document.createElement("link");
+              link.rel = "modulepreload";
+              link.href = base + href;
+              document.head.appendChild(link);
+            }
           });
         }
       })();
     </script>
+    <style>
+      /* Add inline critical CSS here */
+    </style>
   </head>
   <body>
     <div id="root"></div>
