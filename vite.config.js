@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { copyFileSync } from 'fs';
+import { copyFileSync, existsSync } from 'fs';
 import { resolve } from 'path';
 
 export default defineConfig({
@@ -11,10 +11,12 @@ export default defineConfig({
     {
       name: 'copy-manifest',
       closeBundle() {
-        copyFileSync(
-          resolve(__dirname, 'dist/.vite/manifest.json'),
-          resolve(__dirname, 'dist/manifest.json')
-        );
+        const sourcePath = resolve(__dirname, 'dist/.vite/manifest.json');
+        const targetPath = resolve(__dirname, 'dist/manifest.json');
+        
+        if (existsSync(sourcePath)) {
+          copyFileSync(sourcePath, targetPath);
+        }
       },
     },
   ],

@@ -23,16 +23,18 @@ function App() {
   } = useOnboardingContext();
 
   useEffect(() => {
-    if (typeof window === "undefined" || !window.gtag) return;
-    const page =
-      step === "config"
-        ? `/config/${configTab}`
-        : step === "lobby"
-        ? "/lobby"
-        : step === "history"
-        ? "/history"
-        : "/";
-    window.gtag("config", "G-4XJYFVH9FJ", {
+    if (typeof globalThis.window === "undefined" || !globalThis.window.gtag) return;
+    let page;
+    if (step === "config") {
+      page = `/config/${configTab}`;
+    } else if (step === "lobby") {
+      page = "/lobby";
+    } else if (step === "history") {
+      page = "/history";
+    } else {
+      page = "/";
+    }
+    globalThis.window.gtag("config", "G-4XJYFVH9FJ", {
       page_path: page,
     });
   }, [step, configTab]);

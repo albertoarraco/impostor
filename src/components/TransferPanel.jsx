@@ -55,7 +55,7 @@ function TransferPanel() {
       <p className="muted">Exporta o importa categorías personalizadas y palabras extra.</p>
 
       <div className="field">
-        <label style={{marginTop: 10}}>Qué incluye</label>
+        <h3 style={{marginTop: 10, marginBottom: 8, fontSize: '1em'}}>Qué incluye</h3>
         <ul className="muted" style={{ paddingLeft: '18px', lineHeight: 1.5, marginTop: 0 }}>
           <li>Categorías personalizadas con sus palabras.</li>
           <li>Palabras extra añadidas a categorías base (no sobrescribe las palabras base).</li>
