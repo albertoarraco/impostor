@@ -1,0 +1,233 @@
+.history-list .history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+}
+
+.history-list .history-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.history-list .history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-list .history-entry {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+  min-height: auto;
+}
+
+.history-list .history-entry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
+}
+
+.history-list .history-entry::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--primary);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.history-list .history-entry:hover::before {
+  opacity: 1;
+}
+
+.history-list .history-meta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.history-list .calendar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 50px;
+  flex-shrink: 0;
+}
+
+.history-list .calendar-date {
+  text-align: center;
+  width: 52px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px;
+}
+
+.history-list .calendar-date .day {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e40af;
+  line-height: 1;
+}
+
+.history-list .calendar-date .month {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+.history-list .game-info {
+  flex: 1;
+}
+
+.history-list .game-info strong {
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.history-list .game-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.history-list .tag {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 3px 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 20px;
+}
+
+.history-list .tag.impostors {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #3b82f6;
+}
+
+.history-list .tag.impostors:hover {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.history-list .tag.category {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #10b981;
+}
+
+.history-list .tag.category:hover {
+  background: #10b981;
+  color: white;
+  border-color: #10b981;
+}
+
+.history-list .tag.category.missing {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #dc2626;
+}
+
+.history-list .tag.category.missing:hover {
+  background: #dc2626;
+  color: white;
+  border-color: #dc2626;
+}
+
+.history-list .warning-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  color: #dc2626;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.history-list .empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+}
+
+.history-list .empty-state svg {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.history-list .load-more {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.history-list .load-more .btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.history-list .load-more .btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .history-list .history-entry {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+  
+  .history-list .history-meta {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .history-list .history-entry .btn {
+    width: 100%;
+  }
+  
+  .history-list .game-tags {
+    gap: 6px;
+  }
+  
+  .history-list .tag {
+    font-size: 0.8rem;
+    padding: 3px 10px;
+  }
+}

@@ -1,16 +1,17 @@
 import { useEffect, Suspense, lazy } from "react";
-import HeaderNav from "./components/HeaderNav";
-import HomePanel from "./components/HomePanel";
-import { useOnboardingContext } from "./components/onboarding/OnboardingContext";
-import { useGame } from "./contexts/GameStateContext";
+import HeaderNav from "./features/shared/ui/header-nav";
+import HomePanel from "./features/home/home-panel";
+import LoadingSpinner from "./features/shared/loading-spinner/loading-spinner";
+import { useOnboardingContext } from "./features/onboarding/onboarding-context";
+import { useGame } from "./contexts/game-state-context";
 import "./App.css";
 
-const ConfigPanel = lazy(() => import("./components/ConfigPanel"));
-const LobbyPanel = lazy(() => import("./components/LobbyPanel"));
-const HistoryList = lazy(() => import("./components/HistoryList"));
-const WordsPanel = lazy(() => import("./components/WordsPanel"));
-const TransferPanel = lazy(() => import("./components/TransferPanel"));
-const OnboardingOverlay = lazy(() => import("./components/onboarding/OnboardingOverlay"));
+const ConfigPanel = lazy(() => import("./features/config/game-config/game-config"));
+const LobbyPanel = lazy(() => import("./features/lobby/lobby-panel"));
+const HistoryList = lazy(() => import("./features/history/history-list"));
+const WordsPanel = lazy(() => import("./features/config/word-config/word-config"));
+const TransferPanel = lazy(() => import("./features/config/transfer-config/transfer-config"));
+const OnboardingOverlay = lazy(() => import("./features/onboarding/onboarding-overlay"));
 
 function App() {
   const {
@@ -53,7 +54,7 @@ function App() {
         </div>
       </header>
 
-      <Suspense fallback={<div className="panel">Cargando…</div>}>
+      <Suspense fallback={<LoadingSpinner />}>
         {step === "home" && <HomePanel />}
 
         {step === "config" && (
@@ -84,19 +85,19 @@ function App() {
 
             <div style={{ marginTop: "16px" }}>
               {configTab === "game" && (
-                <Suspense fallback={<div>Cargando configuración...</div>}>
+                <Suspense fallback={<LoadingSpinner message="Cargando configuración..." />}>
                   <ConfigPanel />
                 </Suspense>
               )}
 
               {configTab === "words" && (
-                <Suspense fallback={<div>Cargando palabras...</div>}>
+                <Suspense fallback={<LoadingSpinner message="Cargando palabras..." />}>
                   <WordsPanel />
                 </Suspense>
               )}
 
               {configTab === "transfer" && (
-                <Suspense fallback={<div>Cargando transferencia...</div>}>
+                <Suspense fallback={<LoadingSpinner message="Cargando transferencia..." />}>
                   <TransferPanel />
                 </Suspense>
               )}
@@ -105,25 +106,25 @@ function App() {
         )}
 
         {step === "lobby" && (
-          <Suspense fallback={<div>Cargando partida...</div>}>
+          <Suspense fallback={<LoadingSpinner message="Cargando partida..." />}>
             <LobbyPanel />
           </Suspense>
         )}
 
         {step === "history" && (
-          <Suspense fallback={<div>Cargando historial...</div>}>
+          <Suspense fallback={<LoadingSpinner message="Cargando historial..." />}>
             <HistoryList />
           </Suspense>
         )}
 
         {step === "palabras" && (
-          <Suspense fallback={<div>Cargando palabras...</div>}>
+          <Suspense fallback={<LoadingSpinner message="Cargando palabras..." />}>
             <WordsPanel />
           </Suspense>
         )}
 
         {step === "transfer" && (
-          <Suspense fallback={<div>Cargando transferencia...</div>}>
+          <Suspense fallback={<LoadingSpinner message="Cargando transferencia..." />}>
             <TransferPanel />
           </Suspense>
         )}

@@ -1,0 +1,11 @@
+.header-nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .header-nav {
+    gap: 6px;
+  }
+}

@@ -1,0 +1,63 @@
+.config-panel .names {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.config-panel .names-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.config-panel .names-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.config-panel .name-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.config-panel .name-row input {
+  flex: 1;
+}
+
+.config-panel .impostor-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.config-panel .impostor-row input {
+  width: 80px;
+}
+
+.config-panel .category-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.config-panel .category-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.config-panel .category-btn:hover {
+  background: var(--surface-hover);
+}
+
+.config-panel .category-btn.primary {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
