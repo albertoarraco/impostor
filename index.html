@@ -49,6 +49,42 @@
       sizes="180x180"
     />
     <link rel="manifest" href="webmanifest" />
+    <script>
+      // Preload de CSS y modulepreload de JS usando el manifest de Vite para acortar la ruta crítica
+      (function () {
+        const base = "/impostor/";
+        const manifestUrl = base + "manifest.json";
+        fetch(manifestUrl)
+          .then((r) => (r.ok ? r.json() : null))
+          .then((manifest) => {
+            if (!manifest) return;
+            const entry = manifest["src/main.jsx"] || manifest["src/main.tsx"];
+            if (!entry) return;
+
+            // CSS
+            (entry.css || []).forEach((href) => {
+              const link = document.createElement("link");
+              link.rel = "preload";
+              link.as = "style";
+              link.href = base + href;
+              link.onload = function () {
+                this.rel = "stylesheet";
+              };
+              document.head.appendChild(link);
+            });
+
+            // JS (entry + imports) como modulepreload
+            const toPreload = new Set([entry.file, ...(entry.imports || [])]);
+            toPreload.forEach((href) => {
+              const link = document.createElement("link");
+              link.rel = "modulepreload";
+              link.href = base + href;
+              document.head.appendChild(link);
+            });
+          })
+          .catch(() => {});
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
