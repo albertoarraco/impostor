@@ -1,0 +1,28 @@
+User-agent: *
+Allow: /
+Allow: /impostor/
+Allow: /images/
+Allow: /public/
+
+# Sitemap
+Sitemap: https://albertoarraco.com/impostor/sitemap.xml
+
+# Block common non-content paths
+Disallow: /src/
+Disallow: /tests/
+Disallow: /node_modules/
+Disallow: /*.json$
+Disallow: /*.js$
+Disallow: /*.jsx$
+
+# Allow search engines to crawl the main content
+Crawl-delay: 1
+
+# Specific bot rules
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
