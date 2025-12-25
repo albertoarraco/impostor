@@ -52,5 +52,8 @@ export default defineConfig({
         }
       },
     },
+    // Additional performance optimizations
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 1000,
   },
 });
