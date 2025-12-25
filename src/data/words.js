@@ -83,7 +83,8 @@ const seriesNouns = [
   'Buscando a Nemo', 'Soul', 'Luca', 'Wall-E', 'Ratatouille', 'Encanto', 'Moana', 'Frozen', 'Zootrópolis',
   'El Rey León', 'Aladdín', 'Mulán', 'Hércules', 'Tarzán', 'Cenicienta', 'La Bella y la Bestia',
   '101 Dálmatas', 'Cruella', 'Maléfica', 'Big Hero 6', 'Cómo entrenar a tu dragón',
-  'Kung Fu Panda', 'Madagascar', 'Megamente', 'El Gato con Botas',
+  'Kung Fu Panda', 'Madagascar', 'Megamente', 'El Gato con Botas','One Piece','Naruto','Dragon Ball',
+  'Rick y Morty','Los Simpson','Futurama','South Park'
 ];
 
 const categories = {

@@ -1,22 +1,14 @@
-function ConfigPanel({
-  impostors,
-  names,
-  canStart,
-  randomImpostors,
-  categoryOptionsBase,
-  categoryOptionsCustom,
-  onImpostorsChange,
-  onToggleRandom,
-  onNameChange,
-  onAddName,
-  onRemoveName,
-  wordCategory,
-  onWordCategoryChange,
-  onBack,
-  onNext,
-  onLoadLast,
-  hasSavedConfig,
-}) {
+import { useGame } from "../contexts/GameStateContext";
+
+function ConfigPanel() {
+  const {
+    navigation: { setStep },
+    config,
+    words,
+  } = useGame();
+
+  const names = config.names;
+
   return (
     <section className="panel">
       <h2>Configuración del juego</h2>
@@ -28,15 +20,15 @@ function ConfigPanel({
             type="number"
             min={1}
             max={Math.max(1, (names.filter((n) => n.trim()).length || 1) - 1)}
-            value={Math.min(impostors, Math.max(1, (names.filter((n) => n.trim()).length || 1) - 1))}
-            disabled={randomImpostors}
-            onChange={(e) => onImpostorsChange(Number(e.target.value) || 1)}
+            value={Math.min(config.impostors, Math.max(1, (names.filter((n) => n.trim()).length || 1) - 1))}
+            disabled={config.randomImpostors}
+            onChange={(e) => config.setImpostors(Number(e.target.value) || 1)}
           />
           <label className="toggle-switch">
             <input
               type="checkbox"
-              checked={randomImpostors}
-              onChange={(e) => onToggleRandom(e.target.checked)}
+              checked={config.randomImpostors}
+              onChange={(e) => config.setRandomImpostors?.(e.target.checked)}
             />
             <span className="slider" aria-hidden="true" />
             <span className="toggle-label">Impostores aleatorios</span>
@@ -48,27 +40,27 @@ function ConfigPanel({
         <label>Categoría de palabra</label>
         <p className="muted small" style={{ marginTop: '4px' }}>Categorías base</p>
         <div className="category-group">
-          {categoryOptionsBase.map((cat) => (
+          {words.baseCategoryOptions.map((cat) => (
             <button
               key={cat.key}
               type="button"
-              className={`btn category-btn ${wordCategory === cat.key ? 'primary' : ''}`}
-              onClick={() => onWordCategoryChange(cat.key)}
+              className={`btn category-btn ${words.wordCategory === cat.key ? 'primary' : ''}`}
+              onClick={() => words.setWordCategory(cat.key)}
             >
               {cat.label}
             </button>
           ))}
         </div>
-        {categoryOptionsCustom.length > 0 && (
+        {words.customCategoryOptions.length > 0 && (
           <>
             <p className="muted small" style={{ marginTop: '10px' }}>Categorías personalizadas</p>
             <div className="category-group">
-              {categoryOptionsCustom.map((cat) => (
+              {words.customCategoryOptions.map((cat) => (
                 <button
                   key={cat.key}
                   type="button"
-                  className={`btn category-btn ${wordCategory === cat.key ? 'primary' : ''}`}
-                  onClick={() => onWordCategoryChange(cat.key)}
+                  className={`btn category-btn ${words.wordCategory === cat.key ? 'primary' : ''}`}
+                  onClick={() => words.setWordCategory(cat.key)}
                 >
                   {cat.label}
                 </button>
@@ -81,7 +73,7 @@ function ConfigPanel({
       <div className="names">
         <div className="names-header">
           <h3>Jugadores</h3>
-          <button className="btn" type="button" onClick={onAddName}>
+          <button className="btn" type="button" onClick={config.addNameField}>
             + Añadir jugador
           </button>
         </div>
@@ -92,14 +84,14 @@ function ConfigPanel({
                 type="text"
                 placeholder={`Jugador ${index + 1}`}
                 value={name}
-                onChange={(e) => onNameChange(index, e.target.value)}
+                onChange={(e) => config.handleNameChange(index, e.target.value)}
               />
               {names.length > 1 && (
                 <button
                   className="icon-btn"
                   type="button"
                   aria-label="Eliminar"
-                  onClick={() => onRemoveName(index)}
+                  onClick={() => config.removeNameField(index)}
                 >
                   ✕
                 </button>
@@ -110,24 +102,24 @@ function ConfigPanel({
       </div>
 
       <div className="actions spaced">
-        <button className="btn" type="button" onClick={onBack}>
+        <button className="btn" type="button" onClick={() => setStep("home")}>
           Volver
         </button>
-        {hasSavedConfig && onLoadLast && (
-          <button className="btn" type="button" onClick={onLoadLast}>
+        {config.hasSavedConfig && config.loadLastConfig && (
+          <button className="btn" type="button" onClick={config.loadLastConfig}>
             Cargar última partida
           </button>
         )}
         <button
-          className={`btn primary ${!canStart ? 'disabled' : ''}`}
+          className={`btn primary ${!config.canStart ? 'disabled' : ''}`}
           type="button"
-          disabled={!canStart}
-          onClick={onNext}
+          disabled={!config.canStart}
+          onClick={() => setStep("lobby")}
         >
           Guardar y continuar
         </button>
       </div>
-      {!canStart && <p className="hint">Añade al menos tantos jugadores como impostores.</p>}
+      {!config.canStart && <p className="hint">Añade al menos tantos jugadores como impostores.</p>}
     </section>
   );
 }

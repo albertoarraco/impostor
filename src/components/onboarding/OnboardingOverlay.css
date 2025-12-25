@@ -1,0 +1,54 @@
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 10, 20, 0.72);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 50;
+}
+
+.onboarding-card {
+  max-width: 520px;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.16), rgba(59, 130, 246, 0.12));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 22px 20px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+  animation: popIn 0.35s ease;
+}
+
+.onboarding-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.pill.small {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}
+
+.progress {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.dot.active {
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  transform: scale(1.05);
+}

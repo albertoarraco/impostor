@@ -1,4 +1,10 @@
-function HomePanel({ totalGames = 0, todayGames = 0, monthGames = 0, monthLabel = '' }) {
+import { useGame } from "../contexts/GameStateContext";
+
+function HomePanel() {
+  const {
+    stats: { totalGames, todayGames, monthGames, monthLabel },
+  } = useGame();
+
   return (
     <>
       <section className="panel">

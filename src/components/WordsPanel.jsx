@@ -1,15 +1,18 @@
 import { useMemo, useState } from 'react';
+import { useGame } from "../contexts/GameStateContext";
 
-function WordsPanel({
-  baseCategories,
-  baseWordCounts,
-  baseCategoryOptions,
-  customCategories,
-  extraWords,
-  onSaveCustom,
-  onDeleteCustom,
-  onSaveExtra,
-}) {
+function WordsPanel() {
+  const { words } = useGame();
+  const {
+    baseLabels: baseCategories,
+    baseWordCounts,
+    baseCategoryOptions,
+    customCategories,
+    extraWords,
+    setCustomCategories,
+    setExtraWords,
+    setWordCategory,
+  } = words;
   const [newCatName, setNewCatName] = useState('');
   const [newCatWords, setNewCatWords] = useState('');
   const baseOnly = useMemo(() => baseCategoryOptions.filter((c) => c.key !== 'random'), [baseCategoryOptions]);
@@ -76,7 +79,7 @@ function WordsPanel({
                             .split(',')
                             .map((w) => w.trim())
                             .filter(Boolean);
-                          onSaveExtra(cat.key, words);
+                          setExtraWords((prev) => ({ ...prev, [cat.key]: words }));
                           setBaseEditCat(null);
                           setBaseEditText('');
                         }}
@@ -134,7 +137,14 @@ function WordsPanel({
                     >
                       Editar
                     </button>
-                    <button className="btn" type="button" onClick={() => onDeleteCustom(name)}>
+                    <button className="btn" type="button" onClick={() => {
+                      setCustomCategories((prev) => {
+                        const next = { ...prev };
+                        delete next[name];
+                        return next;
+                      });
+                      if (words.wordCategory === name) setWordCategory("basicas");
+                    }}>
                       Eliminar
                     </button>
                   </div>
@@ -155,7 +165,7 @@ function WordsPanel({
                             .split(',')
                             .map((w) => w.trim())
                             .filter(Boolean);
-                          onSaveCustom(editCat, words);
+                          setCustomCategories((prev) => ({ ...prev, [editCat]: words }));
                           setEditCat(null);
                           setEditWords('');
                         }}
@@ -204,7 +214,7 @@ function WordsPanel({
                 .split(',')
                 .map((w) => w.trim())
                 .filter(Boolean);
-              onSaveCustom(newCatName, words);
+              setCustomCategories((prev) => ({ ...prev, [newCatName]: words }));
               setNewCatName('');
               setNewCatWords('');
             }}

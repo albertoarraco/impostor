@@ -10,6 +10,13 @@
   flex-direction: column;
   gap: 16px;
   align-items: flex-start;
+  position: relative;
+}
+
+.hero-actions {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .pill {
@@ -88,6 +95,13 @@ p {
   box-shadow: none;
 }
 
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 .grid {
   margin-top: 48px;
   display: grid;
@@ -153,13 +167,12 @@ p {
   border-radius: 999px;
   position: relative;
   transition: background 0.2s ease, border-color 0.2s ease;
-  border: 0px solid rgba(255, 255, 255, 0.12);
   display: inline-flex;
   align-items: center;
 }
 
 .toggle-switch .slider::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 2px;
   left: 2px;
@@ -364,7 +377,11 @@ p {
   margin-top: 16px;
   padding: 18px;
   border-radius: 14px;
-  background: linear-gradient(120deg, rgba(34, 211, 238, 0.16), rgba(124, 58, 237, 0.16));
+  background: linear-gradient(
+    120deg,
+    rgba(34, 211, 238, 0.16),
+    rgba(124, 58, 237, 0.16)
+  );
   border: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   align-items: center;
@@ -374,7 +391,11 @@ p {
 }
 
 .info-box {
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.18), rgba(59, 130, 246, 0.16));
+  background: linear-gradient(
+    135deg,
+    rgba(124, 58, 237, 0.18),
+    rgba(59, 130, 246, 0.16)
+  );
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 12px;
   padding: 14px 16px;
@@ -423,7 +444,8 @@ p {
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  transition: transform 0.18s ease, box-shadow 0.22s ease, border-color 0.2s ease;
+  transition: transform 0.18s ease, box-shadow 0.22s ease,
+    border-color 0.2s ease;
 }
 
 .history-entry:hover {

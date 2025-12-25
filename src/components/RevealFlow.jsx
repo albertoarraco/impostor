@@ -20,7 +20,7 @@ function RevealFlow({
             {currentPlayer?.role}
           </div>
           <button className="btn" type="button" onClick={onNext}>
-            {isLast ? 'Empezar a jugar' : 'Siguiente jugador'}
+            {isLast ? 'Empezar partida' : 'Siguiente jugador'}
           </button>
         </>
       )}
