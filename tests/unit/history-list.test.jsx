@@ -52,14 +52,14 @@ describe("HistoryList", () => {
 
   it("deshabilita 'Usar' cuando falta la categoría personalizada", () => {
     render(<HistoryList />);
-    const disabledBtn = screen.getAllByText("Usar")[0];
+    const disabledBtn = screen.getAllByText("Usar configuración")[0];
     expect(disabledBtn).toBeDisabled();
     expect(screen.getByText(/no disponible/i)).toBeInTheDocument();
   });
 
   it("permite usar una entrada válida y navega a config game", () => {
     render(<HistoryList />);
-    const enabledBtn = screen.getAllByText("Usar")[1];
+    const enabledBtn = screen.getAllByText("Usar configuración")[1];
     fireEvent.click(enabledBtn);
     expect(mockGame.config.setNames).toHaveBeenCalledWith(["C", "D"]);
     expect(mockGame.navigation.setConfigTab).toHaveBeenCalledWith("game");
