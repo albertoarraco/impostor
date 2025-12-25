@@ -1,10 +1,10 @@
 import { useEffect, Suspense, lazy } from "react";
 import HeaderNav from "./components/HeaderNav";
+import HomePanel from "./components/HomePanel";
 import { useOnboardingContext } from "./components/onboarding/OnboardingContext";
 import { useGame } from "./contexts/GameStateContext";
 import "./App.css";
 
-const HomePanel = lazy(() => import("./components/HomePanel"));
 const ConfigPanel = lazy(() => import("./components/ConfigPanel"));
 const LobbyPanel = lazy(() => import("./components/LobbyPanel"));
 const HistoryList = lazy(() => import("./components/HistoryList"));
@@ -81,24 +81,56 @@ function App() {
             </div>
 
             <div style={{ marginTop: "16px" }}>
-              {configTab === "game" && <ConfigPanel />}
+              {configTab === "game" && (
+                <Suspense fallback={<div>Cargando configuración...</div>}>
+                  <ConfigPanel />
+                </Suspense>
+              )}
 
-              {configTab === "words" && <WordsPanel />}
+              {configTab === "words" && (
+                <Suspense fallback={<div>Cargando palabras...</div>}>
+                  <WordsPanel />
+                </Suspense>
+              )}
 
-              {configTab === "transfer" && <TransferPanel />}
+              {configTab === "transfer" && (
+                <Suspense fallback={<div>Cargando transferencia...</div>}>
+                  <TransferPanel />
+                </Suspense>
+              )}
             </div>
           </section>
         )}
 
-        {step === "lobby" && <LobbyPanel />}
+        {step === "lobby" && (
+          <Suspense fallback={<div>Cargando partida...</div>}>
+            <LobbyPanel />
+          </Suspense>
+        )}
 
-        {step === "history" && <HistoryList />}
+        {step === "history" && (
+          <Suspense fallback={<div>Cargando historial...</div>}>
+            <HistoryList />
+          </Suspense>
+        )}
 
-        {step === "palabras" && <WordsPanel />}
+        {step === "palabras" && (
+          <Suspense fallback={<div>Cargando palabras...</div>}>
+            <WordsPanel />
+          </Suspense>
+        )}
 
-        {step === "transfer" && <TransferPanel />}
+        {step === "transfer" && (
+          <Suspense fallback={<div>Cargando transferencia...</div>}>
+            <TransferPanel />
+          </Suspense>
+        )}
 
-        {showOnboarding && <OnboardingOverlay />}
+        {showOnboarding && (
+          <Suspense fallback={null}>
+            <OnboardingOverlay />
+          </Suspense>
+        )}
       </Suspense>
     </div>
   );

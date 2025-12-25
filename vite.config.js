@@ -21,6 +21,8 @@ export default defineConfig({
   build: {
     target: "es2020",
     manifest: true,
+    sourcemap: false,
+    minify: "terser",
     rollupOptions: {
       output: {
         manualChunks: {
