@@ -29,8 +29,27 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ["react", "react-dom"],
-          words: ["/src/data/words.js"],
+          vendor: ["prop-types", "date-fns"],
+          contexts: [
+            "/src/contexts/GameStateContext.jsx",
+            "/src/components/onboarding/OnboardingContext.jsx"
+          ],
+          panels: [
+            "/src/components/ConfigPanel.jsx",
+            "/src/components/LobbyPanel.jsx",
+            "/src/components/HistoryList.jsx",
+            "/src/components/WordsPanel.jsx",
+            "/src/components/TransferPanel.jsx"
+          ],
+          onboarding: [
+            "/src/components/onboarding/OnboardingOverlay.jsx"
+          ],
+          words: ["/src/data/words.js"]
         },
+        chunkFileNames: (chunkInfo) => {
+          const facadeModuleId = chunkInfo.facadeModuleId ? chunkInfo.facadeModuleId.split('/').pop() : 'chunk';
+          return `assets/[name]-[hash].js`;
+        }
       },
     },
   },
