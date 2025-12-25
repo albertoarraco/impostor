@@ -79,7 +79,7 @@ function ConfigPanel() {
         </div>
         <div className="names-list">
           {names.map((name, index) => (
-            <div key={index} className="name-row">
+            <div key={name || `player-${index}`} className="name-row">
               <input
                 type="text"
                 placeholder={`Jugador ${index + 1}`}
@@ -111,7 +111,7 @@ function ConfigPanel() {
           </button>
         )}
         <button
-          className={`btn primary ${!config.canStart ? 'disabled' : ''}`}
+          className={`btn primary ${config.canStart ? '' : 'disabled'}`}
           type="button"
           disabled={!config.canStart}
           onClick={() => setStep("lobby")}

@@ -11,7 +11,7 @@ function HistoryList() {
     navigation: { setStep, setConfigTab },
   } = useGame();
 
-  const baseKeys = (words.baseCategoryOptions || []).map((c) => c.key);
+  const baseKeys = new Set((words.baseCategoryOptions || []).map((c) => c.key));
 
   const total = list.length;
 
@@ -25,8 +25,8 @@ function HistoryList() {
         {list.map((entry) => {
           const missingCustom =
             entry.wordCategory &&
-            !baseKeys.includes(entry.wordCategory) &&
-            !(words.customCategories || {})[entry.wordCategory];
+            !baseKeys.has(entry.wordCategory) &&
+            !words.customCategories?.[entry.wordCategory];
           return (
             <div key={entry.timestamp} className="history-entry">
               <div className="history-meta">

@@ -23,7 +23,7 @@ function App() {
   } = useOnboardingContext();
 
   useEffect(() => {
-    if (typeof globalThis.window === "undefined" || !globalThis.window.gtag) return;
+    if (globalThis.window === undefined || !globalThis.window.gtag) return;
     let page;
     if (step === "config") {
       page = `/config/${configTab}`;

@@ -16,7 +16,6 @@ function LobbyPanel() {
     revealIndex,
     revealed,
     allRevealed,
-    secretWord,
     currentPlayer,
     selectedCategory,
     startGame,
@@ -62,7 +61,7 @@ function LobbyPanel() {
         </div>
         <div className="names-grid">
           {cleanNames.map((name, index) => (
-            <div key={index} className="name-card">
+            <div key={name} className="name-card">
               <strong>{name}</strong>
               <span>Jugador</span>
             </div>
@@ -103,7 +102,7 @@ function LobbyPanel() {
           </div>
           <div className="names-grid">
             {cleanNames.map((name, index) => (
-              <div key={index} className="name-card">
+              <div key={name} className="name-card">
                 <strong>{name}</strong>
                 <span>Jugador</span>
               </div>
