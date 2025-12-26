@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import { format, isSameMonth, isToday } from "date-fns";
 import { es } from "date-fns/locale";
 import storageKeys from "../../constants/storage-keys";
@@ -33,6 +33,9 @@ function useGameLogic({
   const [allRevealedState, setAllRevealedState] = useState(false);
   const [secretWordState, setSecretWordState] = useState("");
   const [startedState, setStartedState] = useState(false);
+  const [impostorCountState, setImpostorCountState] = useState(0);
+  const [eliminatedState, setEliminatedState] = useState([]);
+  const [hydrated, setHydrated] = useState(false);
 
   // mirror to external setters when provided
   const updateRoles = useCallback(
@@ -83,6 +86,14 @@ function useGameLogic({
     [setStarted]
   );
 
+  const updateImpostorCount = useCallback((val) => {
+    setImpostorCountState(val);
+  }, []);
+
+  const updateEliminated = useCallback((val) => {
+    setEliminatedState(val);
+  }, []);
+
   const startGame = useCallback(() => {
     if (!canStart) return;
     const impostorCount = randomImpostors
@@ -113,6 +124,8 @@ function useGameLogic({
     updateRevealed(false);
     updateAllRevealed(false);
     updateSecretWord(randomWord || "");
+    updateImpostorCount(impostorCount);
+    updateEliminated([]);
     setHistory((prev) => {
       const next = [
         {
@@ -168,7 +181,92 @@ function useGameLogic({
     updateRevealed(false);
     updateAllRevealed(false);
     updateSecretWord("");
+    updateImpostorCount(0);
+    updateEliminated([]);
+    localStorage.removeItem(storageKeys.game);
   }, [updateAllRevealed, updateRevealIndex, updateRevealed, updateRoles, updateSecretWord, updateStarted]);
+
+  // hydrate game state on mount
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKeys.game) || "null");
+      if (saved?.roles?.length) {
+        updateRoles(saved.roles);
+        const idx = Math.min(saved.roles.length - 1, Math.max(0, saved.revealIndex || 0));
+        updateRevealIndex(idx);
+        updateRevealed(!!saved.revealed);
+        updateAllRevealed(!!saved.allRevealed);
+        updateSecretWord(saved.secretWord || "");
+        updateStarted(!!saved.started);
+        updateImpostorCount(saved.impostorCount || 0);
+        updateEliminated(saved.eliminated || []);
+      }
+    } catch {
+      /* ignore */
+    } finally {
+      setHydrated(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // persist game state
+  useEffect(() => {
+    if (!hydrated) return;
+    const hasRoles = roles.length > 0;
+    if (!hasRoles && !startedState) {
+      localStorage.removeItem(storageKeys.game);
+      return;
+    }
+    const payload = {
+      roles,
+      revealIndex: revealIndexState,
+      revealed: revealedState,
+      allRevealed: allRevealedState,
+      secretWord: secretWordState,
+      started: startedState,
+      impostorCount: impostorCountState,
+      eliminated: eliminatedState,
+    };
+    localStorage.setItem(storageKeys.game, JSON.stringify(payload));
+  }, [
+    roles,
+    revealIndexState,
+    revealedState,
+    allRevealedState,
+    secretWordState,
+    startedState,
+    impostorCountState,
+    eliminatedState,
+    hydrated,
+  ]);
+
+  const toggleEliminated = useCallback(
+    (name) => {
+      setEliminatedState((prev) => {
+        if (prev.includes(name)) {
+          return prev.filter((n) => n !== name);
+        }
+        return [...prev, name];
+      });
+    },
+    []
+  );
+
+  const impostorsAlive = useMemo(() => {
+    const baseImpostors =
+      impostorCountState || roles.filter((r) => r.role === "Impostor").length;
+    if (!baseImpostors) return 0;
+    const eliminatedImpostors = roles
+      .filter((r) => r.role === "Impostor")
+      .filter((r) => eliminatedState.includes(r.name)).length;
+    return Math.max(0, baseImpostors - eliminatedImpostors);
+  }, [impostorCountState, eliminatedState, roles]);
+
+  const alliesAlive = useMemo(() => {
+    const crew = roles.filter((r) => r.role !== "Impostor");
+    const eliminatedCrew = crew.filter((r) => eliminatedState.includes(r.name)).length;
+    return Math.max(0, crew.length - eliminatedCrew);
+  }, [roles, eliminatedState]);
 
   return {
     roles,
@@ -177,6 +275,10 @@ function useGameLogic({
     allRevealed: allRevealedState,
     secretWord: secretWordState,
     started: startedState,
+    impostorCount: impostorCountState,
+    impostorsAlive,
+    alliesAlive,
+    eliminated: eliminatedState,
     setStarted: updateStarted,
     setRoles: updateRoles,
     startGame,
@@ -185,6 +287,9 @@ function useGameLogic({
     setRevealed: updateRevealed,
     setAllRevealed: updateAllRevealed,
     setSecretWord: updateSecretWord,
+    toggleEliminated,
+    setEliminated: updateEliminated,
+    setImpostorCount: updateImpostorCount,
     currentPlayer,
     totalGames,
     todayGames,

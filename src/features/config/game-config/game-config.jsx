@@ -74,13 +74,13 @@ function ConfigPanel() {
       <div className="names">
         <div className="names-header">
           <h3>Jugadores</h3>
-          <button className="btn" type="button" onClick={config.addNameField}>
+          <button className="btn add-player" type="button" onClick={config.addNameField}>
             + Añadir jugador
           </button>
         </div>
         <div className="names-list">
           {names.map((name, index) => (
-            <div key={name || `player-${index}`} className="name-row">
+            <div key={`player-${index}`} className="name-row">
               <input
                 type="text"
                 placeholder={`Jugador ${index + 1}`}

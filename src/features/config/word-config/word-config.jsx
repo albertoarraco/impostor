@@ -138,7 +138,7 @@ function WordsPanel() {
                     >
                       Editar
                     </button>
-                    <button className="btn" type="button" onClick={() => {
+                    <button className="btn danger" type="button" onClick={() => {
                       setCustomCategories((prev) => {
                         const next = { ...prev };
                         delete next[name];

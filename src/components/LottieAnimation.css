@@ -1,0 +1,77 @@
+.lottie-animation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.lottie-animation svg {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 auto;
+}
+
+/* Optimizaciones para rendimiento */
+.lottie-animation svg * {
+  will-change: transform, opacity;
+}
+
+/* Animaciones específicas */
+.lottie-animation--reveal {
+  animation: fadeInScale 0.6s ease-out;
+}
+
+.lottie-animation--celebration {
+  animation: bounce 1s ease-in-out;
+}
+
+.lottie-animation--loading {
+  animation: pulse 2s infinite;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .lottie-animation {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .lottie-animation svg {
+    filter: brightness(0.9);
+  }
+}
