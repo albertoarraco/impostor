@@ -80,7 +80,7 @@ function ConfigPanel() {
         </div>
         <div className="names-list">
           {names.map((name, index) => (
-            <div key={name || `player-${index}`} className="name-row">
+            <div key={`player-${index}`} className="name-row">
               <input
                 type="text"
                 placeholder={`Jugador ${index + 1}`}
