@@ -71,6 +71,7 @@ function LobbyPanel() {
   const hasVictory = impostorsAlive === 0 || alliesAlive === 0;
   const victoryAllies = started && hasVictory && impostorsAlive === 0;
   const victoryImpostors = started && hasVictory && alliesAlive === 0;
+  const hasPlayers = cleanNames?.length > 0;
 
   useEffect(() => {
     if (!hasVictory) {
@@ -119,7 +120,7 @@ function LobbyPanel() {
 
   return (
     <div className="lobby-panel">
-      {!started && roles.length === 0 && !allRevealed && (
+      {!started && !allRevealed && (
         <section className="panel">
           <h2>Jugar partida</h2>
           {selectedCategory && (
@@ -150,7 +151,7 @@ function LobbyPanel() {
                 <button
                   className={`btn primary ${!canStart ? 'disabled' : ''}`}
                   type="button"
-                  disabled={!canStart}
+                  disabled={!canStart || !hasPlayers}
                   onClick={startGame}
                   style={{ marginLeft: 'auto' }}
                 >
