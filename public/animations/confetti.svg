@@ -1,0 +1,112 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Confetti pieces -->
+  <rect x="20" y="10" width="8" height="8" fill="#FF5252" transform="rotate(45 24 14)">
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="translate"
+      from="0 0"
+      to="20 80"
+      dur="2s"
+      repeatCount="indefinite"
+    />
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="rotate"
+      from="0 24 14"
+      to="360 24 14"
+      dur="2s"
+      repeatCount="indefinite"
+      additive="sum"
+    />
+  </rect>
+  
+  <rect x="40" y="5" width="8" height="8" fill="#4CAF50" transform="rotate(30 44 9)">
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="translate"
+      from="0 0"
+      to="-10 85"
+      dur="2.2s"
+      repeatCount="indefinite"
+    />
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="rotate"
+      from="0 44 9"
+      to="-360 44 9"
+      dur="2.2s"
+      repeatCount="indefinite"
+      additive="sum"
+    />
+  </rect>
+  
+  <rect x="60" y="8" width="8" height="8" fill="#2196F3" transform="rotate(60 64 12)">
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="translate"
+      from="0 0"
+      to="15 82"
+      dur="1.8s"
+      repeatCount="indefinite"
+    />
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="rotate"
+      from="0 64 12"
+      to="360 64 12"
+      dur="1.8s"
+      repeatCount="indefinite"
+      additive="sum"
+    />
+  </rect>
+  
+  <rect x="30" y="15" width="8" height="8" fill="#FFC107" transform="rotate(15 34 19)">
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="translate"
+      from="0 0"
+      to="25 75"
+      dur="2.5s"
+      repeatCount="indefinite"
+    />
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="rotate"
+      from="0 34 19"
+      to="-360 34 19"
+      dur="2.5s"
+      repeatCount="indefinite"
+      additive="sum"
+    />
+  </rect>
+  
+  <rect x="50" y="12" width="8" height="8" fill="#9C27B0" transform="rotate(75 54 16)">
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="translate"
+      from="0 0"
+      to="-20 78"
+      dur="2.1s"
+      repeatCount="indefinite"
+    />
+    <animateTransform
+      attributeName="transform"
+      attributeType="XML"
+      type="rotate"
+      from="0 54 16"
+      to="360 54 16"
+      dur="2.1s"
+      repeatCount="indefinite"
+      additive="sum"
+    />
+  </rect>
+</svg>

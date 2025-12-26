@@ -31,6 +31,76 @@
   border-radius: 12px;
   padding: 24px;
   text-align: center;
+}
+
+.lobby-panel .in-game-box {
+  text-align: center;
+  position: relative;
+}
+
+.lobby-panel .celebration-animation {
+  margin: 20px auto;
+  position: relative;
+  z-index: 1;
+}
+
+.lobby-panel .hint {
+  font-size: 1.1rem;
+  color: var(--text);
+  margin: 16px 0;
+  font-weight: 500;
+}
+
+/* Efectos de celebración */
+.lobby-panel .in-game-box {
+  background: linear-gradient(135deg, var(--surface) 0%, rgba(34, 197, 94, 0.05) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 16px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.lobby-panel .in-game-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+  animation: celebrationPulse 3s ease-in-out infinite;
+}
+
+@keyframes celebrationPulse {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .lobby-panel .in-game-box {
+    padding: 20px;
+  }
+  
+  .lobby-panel .celebration-animation {
+    width: 150px !important;
+    height: 150px !important;
+  }
+}
+
+.lobby-panel .reveal-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
   margin: 16px 0;
 }
 

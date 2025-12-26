@@ -1,5 +1,7 @@
 import RevealFlow from './reveal-flow';
 import { useGame } from "../../contexts/game-state-context";
+import { useState, useEffect } from 'react';
+import GameAnimation from '../../components/GameAnimation';
 import './lobby-panel.css';
 
 function LobbyPanel() {
@@ -25,6 +27,20 @@ function LobbyPanel() {
     resetRound,
   } = lobby;
 
+  const [celebrationTrigger, setCelebrationTrigger] = useState(false);
+
+  // Disparar celebración cuando todos son revelados
+  useEffect(() => {
+    if (allRevealed && roles.length > 0) {
+      setCelebrationTrigger(true);
+      
+      // Resetear el trigger para la próxima vez
+      setTimeout(() => {
+        setCelebrationTrigger(false);
+      }, 100);
+    }
+  }, [allRevealed, roles.length]);
+
   const handleNext = () => {
     if (!roles.length) return;
     const isLastPlayer =
@@ -48,15 +64,9 @@ function LobbyPanel() {
   if (!cleanNames?.length) {
     return (
       <section className="panel">
-        <h2>Lobby</h2>
-        <p className="muted">Configura jugadores e impostores para iniciar la partida.</p>
-        {selectedCategory && (
-          <p className="muted small" style={{ marginTop: '-6px', marginBottom: '12px' }}>
-            Categoría: {selectedCategory}
-          </p>
-        )}
-        <div className="info-box">
-          <p className="muted strong">Prepara la partida y haz clic en “Iniciar partida”.</p>
+        <div className="empty-state">
+          <h3>No hay jugadores</h3>
+          <p className="muted strong">Prepara la partida y haz clic en "Iniciar partida".</p>
           {cleanNames.length === 0 && <p className="muted small">Agrega jugadores para comenzar.</p>}
         </div>
         <div className="names-grid">
@@ -96,8 +106,9 @@ function LobbyPanel() {
       )}
       {!started && (
         <>
-          <div className="info-box">
-            <p className="muted strong">Prepara la partida y haz clic en “Iniciar partida”.</p>
+          <div className="empty-state">
+            <h3>Jugadores</h3>
+            <p className="muted strong">Prepara la partida y haz clic en "Iniciar partida".</p>
             {cleanNames.length === 0 && <p className="muted small">Agrega jugadores para comenzar.</p>}
           </div>
           <div className="names-grid">
@@ -150,7 +161,15 @@ function LobbyPanel() {
 
       {started && allRevealed && (
         <div className="in-game-box">
-          <p className="hint">Partida en curso</p>
+          <GameAnimation
+            type="confetti"
+            trigger={celebrationTrigger}
+            width="200px"
+            height="200px"
+            className="celebration-animation"
+            loop={true}
+          />
+          <p className="hint">¡Todos listos! La partida puede comenzar</p>
           <button className="btn primary" type="button" onClick={resetRound}>
             Empezar otra partida
           </button>
