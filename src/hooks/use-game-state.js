@@ -94,6 +94,10 @@ function useGameState() {
       canStart: derived.canStart,
       cleanNames: derived.cleanNames,
       roles: logic.roles,
+      impostorCount: logic.impostorCount,
+      impostorsAlive: logic.impostorsAlive,
+      alliesAlive: logic.alliesAlive,
+      eliminated: logic.eliminated,
       revealed: logic.revealed,
       allRevealed: logic.allRevealed,
       secretWord: logic.secretWord,
@@ -107,6 +111,7 @@ function useGameState() {
       setStarted: logic.setStarted,
       resetRound: logic.resetRound,
       setSecretWord: logic.setSecretWord,
+      toggleEliminated: logic.toggleEliminated,
     },
     history: {
       list: persistence.history,

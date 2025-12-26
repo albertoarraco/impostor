@@ -15,6 +15,10 @@ function LobbyPanel() {
     canStart,
     cleanNames,
     roles,
+    impostorCount,
+    impostorsAlive,
+    alliesAlive,
+    eliminated,
     revealIndex,
     revealed,
     allRevealed,
@@ -25,6 +29,8 @@ function LobbyPanel() {
     setRevealIndex,
     setAllRevealed,
     resetRound,
+    setSecretWord,
+    toggleEliminated,
   } = lobby;
 
   const [celebrationTrigger, setCelebrationTrigger] = useState(false);
@@ -63,82 +69,85 @@ function LobbyPanel() {
 
   if (!cleanNames?.length) {
     return (
-      <section className="panel">
-        <div className="empty-state">
-          <h3>No hay jugadores</h3>
-          <p className="muted strong">Prepara la partida y haz clic en "Iniciar partida".</p>
-          {cleanNames.length === 0 && <p className="muted small">Agrega jugadores para comenzar.</p>}
-        </div>
-        <div className="names-grid">
-          {cleanNames.map((name, index) => (
-            <div key={name} className="name-card">
-              <strong>{name}</strong>
-              <span>Jugador</span>
-            </div>
-          ))}
-        </div>
+      <div className="lobby-panel">
+        <section className="panel">
+          <div className="empty-state">
+            <h3>No hay jugadores</h3>
+            <p className="muted strong">Prepara la partida y haz clic en "Iniciar partida".</p>
+            {cleanNames.length === 0 && <p className="muted small">Agrega jugadores para comenzar.</p>}
+          </div>
+          <div className="names-grid">
+            {cleanNames.map((name, index) => (
+              <div key={name} className="name-card">
+                <strong>{name}</strong>
+                <span>Jugador</span>
+              </div>
+            ))}
+          </div>
 
-        <div className="actions spaced">
-          <button className="btn" type="button" onClick={() => setStep("config")}>
-            Ajustar configuración
-          </button>
-          <button
-            className={`btn primary ${!canStart ? 'disabled' : ''}`}
-            type="button"
-            disabled={!canStart}
-            onClick={startGame}
-            style={{ marginLeft: 'auto' }}
-          >
-            Iniciar partida
-          </button>
-        </div>
-      </section>
+          <div className="actions spaced">
+            <button className="btn" type="button" onClick={() => setStep("config")}>
+              Ajustar configuración
+            </button>
+            <button
+              className={`btn primary ${!canStart ? 'disabled' : ''}`}
+              type="button"
+              disabled={!canStart}
+              onClick={startGame}
+              style={{ marginLeft: 'auto' }}
+            >
+              Iniciar partida
+            </button>
+          </div>
+        </section>
+      </div>
     );
   }
 
-  return (<>
-    {!started && roles.length === 0 && !allRevealed && (
-      <section className="panel">
-        <h2>Jugar partida</h2>
-        {selectedCategory && (
-          <p className="muted small" style={{ marginTop: '-6px', marginBottom: '12px' }}>
-            Categoría: {selectedCategory}
-          </p>
-        )}
-        {!started && (
-          <>
-            <div className="empty-state">
-              <h3>Jugadores</h3>
-              <p className="muted strong">Prepara la partida y haz clic en "Iniciar partida".</p>
-              {cleanNames.length === 0 && <p className="muted small">Agrega jugadores para comenzar.</p>}
-            </div>
-            <div className="names-grid">
-              {cleanNames.map((name) => (
-                <div key={name} className="name-card">
-                  <small>Jugador</small>
-                  <strong>{name}</strong>
-                </div>
-              ))}
-            </div>
+  return (
+    <div className="lobby-panel">
+      {!started && roles.length === 0 && !allRevealed && (
+        <section className="panel">
+          <h2>Jugar partida</h2>
+          {selectedCategory && (
+            <p className="muted small" style={{ marginTop: '-6px', marginBottom: '12px' }}>
+              Categoría: {selectedCategory}
+            </p>
+          )}
+          {!started && (
+            <>
+              <div className="empty-state">
+                <h3>Jugadores</h3>
+                <p className="muted strong">Prepara la partida y haz clic en "Iniciar partida".</p>
+                {cleanNames.length === 0 && <p className="muted small">Agrega jugadores para comenzar.</p>}
+              </div>
+              <div className="names-grid">
+                {cleanNames.map((name) => (
+                  <div key={name} className="name-card">
+                    <small>Jugador</small>
+                    <strong>{name}</strong>
+                  </div>
+                ))}
+              </div>
 
-            <div className="actions spaced">
-              <button className="btn" type="button" onClick={() => setStep("config")}>
-                Ajustar configuración
-              </button>
-              <button
-                className={`btn primary ${!canStart ? 'disabled' : ''}`}
-                type="button"
-                disabled={!canStart}
-                onClick={startGame}
-                style={{ marginLeft: 'auto' }}
-              >
-                Iniciar partida
-              </button>
-            </div>
-          </>
-        )}
-      </section>
-    )}
+              <div className="actions spaced">
+                <button className="btn" type="button" onClick={() => setStep("config")}>
+                  Ajustar configuración
+                </button>
+                <button
+                  className={`btn primary ${!canStart ? 'disabled' : ''}`}
+                  type="button"
+                  disabled={!canStart}
+                  onClick={startGame}
+                  style={{ marginLeft: 'auto' }}
+                >
+                  Iniciar partida
+                </button>
+              </div>
+            </>
+          )}
+        </section>
+      )}
       {started && roles.length > 0 && !allRevealed && (<>
         <div className="reveal-box">
           <h3>Revelación de roles</h3>
@@ -172,7 +181,7 @@ function LobbyPanel() {
           />
       </>)}
 
-      {started && allRevealed && (
+      {started && allRevealed && (<>
         <div className="in-game-box">
           <div className="celebration-particles"></div>
           <GameAnimation
@@ -188,8 +197,64 @@ function LobbyPanel() {
             Empezar otra partida
           </button>
         </div>
-      )}
-    </>
+          <div className="tracker-panel">
+            <div className="tracker-header">
+              <div>
+                <p className="muted small">Seguimiento de partida</p>
+                <h4 className="tracker-title">Estado de jugadores</h4>
+                <p className="muted small">Toca un jugador para marcarlo como eliminado o activo.</p>
+              </div>
+            </div>
+            <div className="tracker-badges">
+              <div className="stat-card imp">
+                <p className="muted tiny">Impostores vivos</p>
+                <div className="stat-main">
+                  <strong>{impostorsAlive}</strong>
+                  <span className="muted">/ {impostorCount || roles.filter(r => r.role === "Impostor").length}</span>
+                </div>
+              </div>
+              <div className="stat-card out">
+                <p className="muted tiny">Aliados vivos</p>
+                <div className="stat-main">
+                  <strong>{alliesAlive}</strong>
+                  <span className="muted">/ {roles.filter(r => r.role !== "Impostor").length}</span>
+                </div>
+              </div>
+            </div>
+            {(impostorsAlive === 0 || alliesAlive === 0) && (
+              <div className={`victory-banner ${impostorsAlive === 0 ? 'allies' : 'impostors'}`}>
+                <span className="muted tiny">Resultado</span>
+                <strong>{impostorsAlive === 0 ? "¡Los aliados han ganado!" : "¡Los impostores han ganado!"}</strong>
+                <button className="btn primary" type="button" onClick={resetRound}>
+                  Confirmar finalización de la partida
+                </button>
+              </div>
+            )}
+            <div className="tracker-grid">
+              {roles.map((player) => {
+                const isOut = eliminated.includes(player.name);
+                return (
+                  <button
+                    key={player.name}
+                    type="button"
+                    className={`tracker-chip ${isOut ? 'out' : ''}`}
+                    onClick={() => toggleEliminated(player.name)}
+                    aria-pressed={isOut}
+                  >
+                    <div className="chip-top">
+                      <span className="chip-name">{player.name}</span>
+                      <span className={`chip-pill ${isOut ? 'pill-out' : 'pill-active'}`}>
+                        {isOut ? 'Eliminado' : 'Activo'}
+                      </span>
+                    </div>
+                    <span className="chip-status muted small">Toca para alternar estado</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+      </>)}
+    </div>
   );
 }
 
