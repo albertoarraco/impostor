@@ -18,6 +18,8 @@ export default defineConfig({
         "playwright.config.*",
         "vitest.config.*",
         "vitest.setup.*",
+        "**/*.svg",
+        "**/*.css",
       ],
     },
   },

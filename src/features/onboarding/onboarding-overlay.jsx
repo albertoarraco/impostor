@@ -19,7 +19,7 @@ function OnboardingOverlay() {
       <div className="onboarding-card">
         <div className="onboarding-header">
           <span className="pill small">Recorrido</span>
-          <button className="icon-btn" type="button" onClick={closeOnboarding}>
+          <button className="btn" type="button" onClick={closeOnboarding} style={{width: 'auto'}}>
             Cerrar
           </button>
         </div>

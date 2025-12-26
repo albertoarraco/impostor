@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, act } from "@testing-library/react";
 import TransferPanel from "../../src/features/config/transfer-config/transfer-config";
 
 let setImportError;
@@ -33,14 +33,20 @@ describe("TransferPanel", () => {
   });
 
   it("exporta a portapapeles sin lanzar error", async () => {
-    render(<TransferPanel />);
+    await act(async () => {
+      render(<TransferPanel />);
+    });
     const exportBtn = screen.getByText(/Exportar a JSON/i);
-    fireEvent.click(exportBtn);
+    await act(async () => {
+      fireEvent.click(exportBtn);
+    });
     expect(clipboardMock.writeText).toHaveBeenCalled();
   });
 
   it("muestra error si el JSON es inválido al importar", () => {
-    render(<TransferPanel />);
+    act(() => {
+      render(<TransferPanel />);
+    });
     const textarea = screen.getByPlaceholderText(/Pega aquí un JSON/i);
     fireEvent.change(textarea, { target: { value: "no-json" } });
     fireEvent.click(screen.getByText(/Importar JSON/i));

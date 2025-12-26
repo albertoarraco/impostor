@@ -81,10 +81,10 @@
   padding: 8px 14px;
   border-radius: 999px;
   background: rgba(124, 58, 237, 0.14);
-  color: #7c3aed;
+  color: #a172f2;
   font-weight: 600;
   letter-spacing: 0.02em;
-  border: 1px solid rgba(124, 58, 237, 0.35);
+  border: 1px solid rgba(124, 58, 237, 0.20);
 }
 
 h1 {
@@ -238,6 +238,8 @@ p {
     pointer-events: auto;
     visibility: visible;
     max-height: 100vh;
+    margin-top: -7px;
+    z-index: 21;
     transition: transform 220ms ease, opacity 180ms ease, max-height 260ms ease;
   }
 

@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
-import { render, waitFor } from "@testing-library/react";
+import { render, waitFor, act } from "@testing-library/react";
 import useGameConfigState from "../../src/hooks/game/use-game-config-state";
 
 function HookProbe({ onValue }) {
@@ -23,7 +23,9 @@ describe("useGameConfigState", () => {
 
   it("arranca en home si no hay step válido en la URL", () => {
     let snapshot = null;
-    render(<HookProbe onValue={(v) => (snapshot = v)} />);
+    act(() => {
+      render(<HookProbe onValue={(v) => (snapshot = v)} />);
+    });
     expect(snapshot.step).toBe("home");
     const url = new URL(replaceSpy.mock.calls.at(-1)?.[2] || window.location.href);
     expect(url.searchParams.get("step")).toBe("home");
@@ -32,15 +34,21 @@ describe("useGameConfigState", () => {
   it("inicializa step desde la URL si es permitido", () => {
     window.history.pushState({}, "", "/?step=lobby");
     let snapshot = null;
-    render(<HookProbe onValue={(v) => (snapshot = v)} />);
+    act(() => {
+      render(<HookProbe onValue={(v) => (snapshot = v)} />);
+    });
     expect(snapshot.step).toBe("lobby");
   });
 
   it("sincroniza cambios de step a la URL y limpia tab", async () => {
     window.history.pushState({}, "", "/?step=home&tab=words");
     let snapshot = null;
-    render(<HookProbe onValue={(v) => (snapshot = v)} />);
-    snapshot.setStep("history");
+    act(() => {
+      render(<HookProbe onValue={(v) => (snapshot = v)} />);
+    });
+    await act(async () => {
+      snapshot.setStep("history");
+    });
     await waitFor(() => {
       const url = new URL(replaceSpy.mock.calls.at(-1)?.[2] || window.location.href);
       expect(url.searchParams.get("step")).toBe("history");

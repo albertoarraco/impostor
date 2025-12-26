@@ -81,14 +81,14 @@
 .history-list .calendar-date .day {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1e40af;
+  color: #962525;
   line-height: 1;
 }
 
 .history-list .calendar-date .month {
   font-size: 0.7rem;
   font-weight: 600;
-  color: #64748b;
+  color: #a7adb4;
   text-transform: uppercase;
   margin-top: 1px;
 }
