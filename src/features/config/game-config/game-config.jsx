@@ -74,7 +74,7 @@ function ConfigPanel() {
       <div className="names">
         <div className="names-header">
           <h3>Jugadores</h3>
-          <button className="btn" type="button" onClick={config.addNameField}>
+          <button className="btn add-player" type="button" onClick={config.addNameField}>
             + Añadir jugador
           </button>
         </div>

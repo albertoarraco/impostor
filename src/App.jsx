@@ -1,4 +1,4 @@
-import { useEffect, Suspense, lazy } from "react";
+import { useEffect, Suspense, lazy, useState } from "react";
 import HeaderNav from "./features/shared/ui/header-nav";
 import HomePanel from "./features/home/home-panel";
 import LoadingSpinner from "./features/shared/loading-spinner/loading-spinner";
@@ -17,6 +17,7 @@ function App() {
   const {
     navigation: { step, setStep, configTab, setConfigTab },
   } = useGame();
+  const [navOpen, setNavOpen] = useState(false);
 
   const {
     showOnboarding,
@@ -46,7 +47,22 @@ function App() {
         <div className="pill">Juego de impostor</div>
         <h1>El impostor</h1>
         <p>Define jugadores, número de impostores y arranca la partida.</p>
-        <HeaderNav step={step} onStepChange={setStep} />
+        <div className={`header-nav-container ${navOpen ? "open" : ""}`}>
+          <button
+            className="nav-toggle"
+            type="button"
+            aria-label="Abrir navegación"
+            onClick={() => setNavOpen((o) => !o)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+          <HeaderNav step={step} onStepChange={(target) => {
+            setNavOpen(false);
+            setStep(target);
+          }} />
+        </div>
         <div className="hero-actions">
           <button className="btn" type="button" onClick={openOnboarding}>
             Guía rápida
