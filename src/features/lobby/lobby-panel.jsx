@@ -6,7 +6,7 @@ import './lobby-panel.css';
 
 function LobbyPanel() {
   const {
-    navigation: { setStep },
+    navigation: { setStep, setConfigTab },
     lobby,
   } = useGame();
 
@@ -143,6 +143,17 @@ function LobbyPanel() {
         <div className="reveal-box">
           <h3>Revelación de roles</h3>
           <p className="muted">Muestra la pantalla al jugador, revela su palabra y luego pasa.</p>
+          <div className="actions spaced" style={{ marginTop: '12px' }}>
+            <button
+              className="btn ghost"
+              type="button"
+              onClick={() => {
+                resetRound();
+              }}
+            >
+              Volver a configurar la partida
+            </button>
+          </div>
         </div>
             <RevealFlow
             currentPlayer={currentPlayer}
