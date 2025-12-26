@@ -21,6 +21,7 @@ const GameAnimation = ({
     // Revelación
     'impostor-reveal': 'IMPACTOR_REVEAL',
     'word-reveal': 'WORD_REVEAL',
+    'ally-reveal': 'ALLY_REVEAL',
     'mystery-reveal': 'WORD_REVEAL',
     
     // Celebración

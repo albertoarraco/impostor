@@ -1,0 +1,28 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="allyGlow" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#34D399" stop-opacity="0.9"/>
+      <stop offset="55%" stop-color="#22C55E" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#0EA856" stop-opacity="0.0"/>
+    </radialGradient>
+    <linearGradient id="allyRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A7F3D0"/>
+      <stop offset="100%" stop-color="#34D399"/>
+    </linearGradient>
+    <linearGradient id="allyBody" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#BBF7D0"/>
+      <stop offset="100%" stop-color="#22C55E"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="105" r="80" fill="url(#allyGlow)"/>
+  <circle cx="100" cy="100" r="78" stroke="url(#allyRing)" stroke-width="6" fill="rgba(10,25,20,0.35)"/>
+  <circle cx="100" cy="82" r="28" fill="url(#allyBody)" stroke="#16A34A" stroke-width="3"/>
+  <path d="M60 153c1.5-22 18.5-39 40-39h0c21.5 0 38.5 17 40 39l0.8 12.5c0.3 4.7-3.5 8.7-8.2 8.7H67.4c-4.8 0-8.5-4-8.2-8.7L60 153Z" fill="url(#allyBody)" stroke="#16A34A" stroke-width="3"/>
+  <circle cx="90" cy="78" r="4" fill="#0F172A"/>
+  <circle cx="110" cy="78" r="4" fill="#0F172A"/>
+  <path d="M86 90c4 3 24 3 28 0" stroke="#0F172A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M100 60c-8.5 0-14.5 5-16.5 13" stroke="#16A34A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M118 73c-2-8-8-13-18-13" stroke="#34D399" stroke-width="3" stroke-linecap="round"/>
+  <path d="M75 132c6-14 18-21 33-21" stroke="#16A34A" stroke-width="3" stroke-linecap="round"/>
+  <path d="M125 132c-6-14-18-21-33-21" stroke="#16A34A" stroke-width="3" stroke-linecap="round"/>
+</svg>

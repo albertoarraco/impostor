@@ -14,7 +14,7 @@ function RevealFlow({
   const [isRevealing, setIsRevealing] = useState(false);
 
   const isImpostor = currentPlayer?.role === 'Impostor';
-  const animationType = isImpostor ? 'impostor-reveal' : 'word-reveal';
+  const animationType = isImpostor ? 'impostor-reveal' : 'ally-reveal';
 
   const initials = useMemo(
     () => (currentPlayer?.name || '?').slice(0, 2).toUpperCase(),

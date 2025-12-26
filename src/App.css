@@ -3,6 +3,12 @@
   font-size-adjust: none;
 }
 
+@media (max-width: 480px) {
+  .btn {
+    font-size: 1rem;
+  }
+}
+
 .page {
   max-width: 1040px;
   margin: 0 auto;

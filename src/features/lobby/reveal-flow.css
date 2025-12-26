@@ -261,6 +261,6 @@
   .player-info h3 { font-size: 1.15rem; }
   .pill.step-pill { justify-self: center; }
   .mystery-stack { width: 130px; height: 95px; }
-  .btn { width: 100%; max-width: 240px; }
+  .btn { width: 100%;}
   .cta-row { justify-content: center; }
 }

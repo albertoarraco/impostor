@@ -5,6 +5,7 @@ const loadSVG = (name) => {
   const svgModules = {
     'IMPACTOR_REVEAL': () => import('../assets/animations/impostor.svg'),
     'WORD_REVEAL': () => import('../assets/animations/word-reveal.svg'),
+    'ALLY_REVEAL': () => import('../assets/animations/ally-green.svg'),
     'VICTORY': () => import('../assets/animations/success.svg'),
     'CONFETTI': () => import('../assets/animations/confetti.svg'),
     'FIREWORKS': () => import('../assets/animations/confetti.svg'),
@@ -64,7 +65,7 @@ export const useLottieAnimations = () => {
     
     try {
       const animationNames = [
-        'IMPACTOR_REVEAL', 'WORD_REVEAL', 'VICTORY', 'CONFETTI',
+        'IMPACTOR_REVEAL', 'WORD_REVEAL', 'ALLY_REVEAL', 'VICTORY', 'CONFETTI',
         'LOADING_SPINNER', 'SUCCESS', 'ERROR'
       ];
       
