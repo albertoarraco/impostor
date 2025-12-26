@@ -1,28 +1,66 @@
 .lobby-panel .names-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px;
+  gap: 16px;
+  margin: 24px 0;
 }
 
 .lobby-panel .name-card {
-  background: var(--surface);
+  background: linear-gradient(135deg, var(--surface) 0%, rgba(255, 255, 255, 0.03) 100%);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.lobby-panel .name-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lobby-panel .name-card:hover::before {
+  opacity: 1;
+}
+
+.lobby-panel .name-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
 .lobby-panel .name-card strong {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: var(--text);
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--text) 0%, var(--text-muted) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .lobby-panel .name-card span {
   font-size: 0.875rem;
   color: var(--text-muted);
+  font-weight: 500;
 }
 
 .lobby-panel .reveal-card {
@@ -39,26 +77,42 @@
 }
 
 .lobby-panel .celebration-animation {
-  margin: 20px auto;
+  margin: 24px auto;
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
 }
 
 .lobby-panel .hint {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   color: var(--text);
-  margin: 16px 0;
-  font-weight: 500;
+  margin: 24px 0;
+  font-weight: 700;
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #16a34a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px rgba(22, 163, 74, 0.1);
 }
 
-/* Efectos de celebración */
+/* Efectos de celebración mejorados */
 .lobby-panel .in-game-box {
-  background: linear-gradient(135deg, var(--surface) 0%, rgba(34, 197, 94, 0.05) 100%);
-  border: 1px solid rgba(34, 197, 94, 0.2);
-  border-radius: 16px;
-  padding: 32px;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.9) 0%, 
+    rgba(34, 197, 94, 0.05) 25%,
+    rgba(34, 197, 94, 0.08) 50%,
+    rgba(34, 197, 94, 0.05) 75%,
+    rgba(255, 255, 255, 0.9) 100%);
+  border: 2px solid rgba(34, 197, 94, 0.3);
+  border-radius: 24px;
+  padding: 48px 32px;
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 25px 50px -12px rgba(34, 197, 94, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  animation: celebrationGlow 4s ease-in-out infinite;
 }
 
 .lobby-panel .in-game-box::before {
@@ -68,30 +122,292 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
-  animation: celebrationPulse 3s ease-in-out infinite;
+  background: radial-gradient(circle, 
+    rgba(34, 197, 94, 0.15) 0%, 
+    rgba(34, 197, 94, 0.08) 30%,
+    transparent 70%);
+  animation: celebrationPulse 5s ease-in-out infinite;
+}
+
+.lobby-panel .in-game-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(34, 197, 94, 0.6), 
+    rgba(22, 163, 74, 0.8),
+    rgba(34, 197, 94, 0.6),
+    transparent);
+  animation: topShine 4s ease-in-out infinite;
+}
+
+@keyframes celebrationGlow {
+  0%, 100% {
+    box-shadow: 
+      0 25px 50px -12px rgba(34, 197, 94, 0.25),
+      0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 
+      0 30px 60px -12px rgba(34, 197, 74, 0.35),
+      0 0 0 2px rgba(255, 255, 255, 0.1) inset;
+    transform: scale(1.01);
+  }
 }
 
 @keyframes celebrationPulse {
   0%, 100% {
-    transform: scale(0.8);
+    transform: scale(0.8) rotate(0deg);
     opacity: 0;
   }
   50% {
-    transform: scale(1.2);
-    opacity: 1;
+    transform: scale(1.3) rotate(180deg);
+    opacity: 0.8;
   }
 }
 
-/* Responsive */
+@keyframes topShine {
+  0%, 100% {
+    opacity: 0;
+    transform: translateX(-100%) scaleX(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(100%) scaleX(1);
+  }
+}
+
+/* Botón de celebración mejorado - MÁS GRANDE Y VISIBLE */
+.lobby-panel .in-game-box .btn.primary {
+  background: linear-gradient(135deg, #16a34a 0%, #22c55e 25%, #16a34a 50%, #22c55e 75%, #16a34a 100%);
+  border: 2px solid rgba(34, 197, 94, 0.4);
+  border-radius: 16px;
+  padding: 18px 36px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 10px 25px rgba(22, 163, 74, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 280px;
+  margin-top: 16px;
+}
+
+.lobby-panel .in-game-box .btn.primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.4), 
+    transparent);
+  transition: left 0.8s ease;
+}
+
+.lobby-panel .in-game-box .btn.primary:hover::before {
+  left: 100%;
+}
+
+.lobby-panel .in-game-box .btn.primary:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 
+    0 20px 40px rgba(22, 163, 74, 0.5),
+    0 0 0 2px rgba(255, 255, 255, 0.2) inset;
+  border-color: rgba(34, 197, 94, 0.6);
+}
+
+.lobby-panel .in-game-box .btn.primary:active {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Partículas de celebración mejoradas */
+.lobby-panel .in-game-box .celebration-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.lobby-panel .in-game-box .celebration-particles::before,
+.lobby-panel .in-game-box .celebration-particles::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  border-radius: 50%;
+  animation: particleFall 4s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+}
+
+.lobby-panel .in-game-box .celebration-particles::before {
+  left: 15%;
+  animation-delay: 0s;
+}
+
+.lobby-panel .in-game-box .celebration-particles::after {
+  left: 85%;
+  animation-delay: 2s;
+}
+
+@keyframes particleFall {
+  0% {
+    transform: translateY(-100px) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(500px) rotate(720deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Responsive mejorado - BRUTAL EN MÓVIL */
 @media (max-width: 768px) {
+  .lobby-panel .names-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  
+  .lobby-panel .name-card {
+    padding: 16px 12px;
+    border-radius: 12px;
+  }
+  
+  .lobby-panel .name-card:hover {
+    transform: translateY(-2px) scale(1.01);
+  }
+  
+  .lobby-panel .name-card strong {
+    font-size: 1.1rem;
+  }
+  
   .lobby-panel .in-game-box {
-    padding: 20px;
+    padding: 32px 20px;
+    border-radius: 20px;
+    margin: 16px -8px;
+  }
+  
+  .lobby-panel .celebration-animation {
+    width: 180px !important;
+    height: 180px !important;
+    margin: 20px auto;
+  }
+  
+  .lobby-panel .hint {
+    font-size: 1.2rem;
+    margin: 20px 0;
+    line-height: 1.4;
+  }
+  
+  .lobby-panel .in-game-box .btn.primary {
+    padding: 16px 28px;
+    font-size: 1.2rem;
+    min-width: 240px;
+    margin-top: 12px;
+  }
+  
+  .lobby-panel .in-game-box .btn.primary:hover {
+    transform: translateY(-3px) scale(1.03);
+  }
+}
+
+@media (max-width: 480px) {
+  .lobby-panel .names-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 8px;
+  }
+  
+  .lobby-panel .name-card {
+    padding: 12px 8px;
+    border-radius: 8px;
+  }
+  
+  .lobby-panel .name-card strong {
+    font-size: 1rem;
+  }
+  
+  .lobby-panel .name-card span {
+    font-size: 0.8rem;
+  }
+  
+  .lobby-panel .in-game-box {
+    padding: 24px 16px;
+    border-radius: 16px;
+    margin: 12px -4px;
   }
   
   .lobby-panel .celebration-animation {
     width: 150px !important;
     height: 150px !important;
+  }
+  
+  .lobby-panel .hint {
+    font-size: 1.1rem;
+    margin: 16px 0;
+  }
+  
+  .lobby-panel .in-game-box .btn.primary {
+    padding: 14px 24px;
+    font-size: 1.1rem;
+    min-width: 200px;
+  }
+}
+
+/* Dark mode mejorado */
+@media (prefers-color-scheme: dark) {
+  .lobby-panel .in-game-box {
+    background: linear-gradient(135deg, 
+      rgba(0, 0, 0, 0.8) 0%, 
+      rgba(34, 197, 94, 0.08) 25%,
+      rgba(34, 197, 94, 0.12) 50%,
+      rgba(34, 197, 94, 0.08) 75%,
+      rgba(0, 0, 0, 0.8) 100%);
+    border-color: rgba(34, 197, 94, 0.4);
+    box-shadow: 
+      0 25px 50px -12px rgba(34, 197, 74, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  }
+  
+  .lobby-panel .celebration-particles::before,
+  .lobby-panel .celebration-particles::after {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    box-shadow: 0 0 15px rgba(34, 197, 74, 0.8);
+  }
+  
+  .lobby-panel .name-card {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .lobby-panel .name-card:hover {
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 
+      0 20px 25px -5px rgba(59, 130, 246, 0.2),
+      0 10px 10px -5px rgba(59, 130, 246, 0.1);
   }
 }
 
