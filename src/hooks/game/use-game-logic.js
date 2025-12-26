@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import { format, isSameMonth, isToday } from "date-fns";
 import { es } from "date-fns/locale";
 import storageKeys from "../../constants/storage-keys";
@@ -33,6 +33,7 @@ function useGameLogic({
   const [allRevealedState, setAllRevealedState] = useState(false);
   const [secretWordState, setSecretWordState] = useState("");
   const [startedState, setStartedState] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   // mirror to external setters when provided
   const updateRoles = useCallback(
@@ -168,7 +169,56 @@ function useGameLogic({
     updateRevealed(false);
     updateAllRevealed(false);
     updateSecretWord("");
+    localStorage.removeItem(storageKeys.game);
   }, [updateAllRevealed, updateRevealIndex, updateRevealed, updateRoles, updateSecretWord, updateStarted]);
+
+  // hydrate game state on mount
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(storageKeys.game) || "null");
+      if (saved?.roles?.length) {
+        updateRoles(saved.roles);
+        const idx = Math.min(saved.roles.length - 1, Math.max(0, saved.revealIndex || 0));
+        updateRevealIndex(idx);
+        updateRevealed(!!saved.revealed);
+        updateAllRevealed(!!saved.allRevealed);
+        updateSecretWord(saved.secretWord || "");
+        updateStarted(!!saved.started);
+      }
+    } catch {
+      /* ignore */
+    } finally {
+      setHydrated(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // persist game state
+  useEffect(() => {
+    if (!hydrated) return;
+    const hasRoles = roles.length > 0;
+    if (!hasRoles && !startedState) {
+      localStorage.removeItem(storageKeys.game);
+      return;
+    }
+    const payload = {
+      roles,
+      revealIndex: revealIndexState,
+      revealed: revealedState,
+      allRevealed: allRevealedState,
+      secretWord: secretWordState,
+      started: startedState,
+    };
+    localStorage.setItem(storageKeys.game, JSON.stringify(payload));
+  }, [
+    roles,
+    revealIndexState,
+    revealedState,
+    allRevealedState,
+    secretWordState,
+    startedState,
+    hydrated,
+  ]);
 
   return {
     roles,

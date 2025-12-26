@@ -113,10 +113,10 @@ function LobbyPanel() {
               {cleanNames.length === 0 && <p className="muted small">Agrega jugadores para comenzar.</p>}
             </div>
             <div className="names-grid">
-              {cleanNames.map((name, index) => (
+              {cleanNames.map((name) => (
                 <div key={name} className="name-card">
+                  <small>Jugador</small>
                   <strong>{name}</strong>
-                  <span>Jugador</span>
                 </div>
               ))}
             </div>

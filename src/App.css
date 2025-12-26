@@ -388,9 +388,10 @@ p {
   );
   border: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
+  gap: 16px;
   animation: popIn 0.35s ease;
 }
 
