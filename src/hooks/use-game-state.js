@@ -64,6 +64,8 @@ function useGameState() {
     config: {
       impostors: config.impostors,
       names: config.names,
+      maxImpostors: derived.maxImpostors,
+      safeImpostors: derived.safeImpostors,
       randomImpostors: config.randomImpostors,
       setRandomImpostors: config.setRandomImpostors,
       setNames: config.setNames,

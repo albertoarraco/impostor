@@ -10,6 +10,8 @@ vi.mock("../../src/contexts/game-state-context", () => ({
     navigation: { setStep: vi.fn() },
     config: {
       impostors: 1,
+      maxImpostors: 3,
+      safeImpostors: 1,
       names: ["Juan", "Ana"],
       randomImpostors: false,
       canStart: true,

@@ -20,10 +20,24 @@ function ConfigPanel() {
             id="impostors"
             type="number"
             min={1}
-            max={Math.max(1, (names.filter((n) => n.trim()).length || 1) - 1)}
-            value={Math.min(config.impostors, Math.max(1, (names.filter((n) => n.trim()).length || 1) - 1))}
+            max={config.maxImpostors || 1}
+            value={config.impostors === "" ? "" : config.safeImpostors}
             disabled={config.randomImpostors}
-            onChange={(e) => config.setImpostors(Number(e.target.value) || 1)}
+            onChange={(e) => {
+              const { value } = e.target;
+              if (value === "") {
+                config.setImpostors("");
+                return;
+              }
+              const raw = Number(value);
+              if (Number.isNaN(raw)) return;
+              config.setImpostors(raw);
+            }}
+            onBlur={(e) => {
+              const raw = Number(e.target.value);
+              const clamped = Math.max(1, Math.min(config.maxImpostors || 1, Number.isNaN(raw) ? 1 : raw));
+              config.setImpostors(clamped);
+            }}
           />
           <label className="toggle-switch">
             <input
