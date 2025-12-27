@@ -10,6 +10,10 @@ function useGameDerived({ names, impostors, randomImpostors, customCategories, e
       tecnologia: "Tecnología",
       acciones: "Acciones",
       series: "Series y pelis",
+      animales: "Animales",
+      profesiones: "Profesiones",
+      deportes: "Deportes",
+      instrumentos: "Instrumentos",
     }),
     []
   );
