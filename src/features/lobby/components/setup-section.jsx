@@ -1,6 +1,15 @@
 import PropTypes from 'prop-types';
 
-function SetupSection({ cleanNames, canStart, setStep, startGame, selectedCategory, hasPlayers }) {
+function SetupSection({
+  cleanNames,
+  canStart,
+  setStep,
+  startGame,
+  selectedCategory,
+  hasPlayers,
+  startingPlayer,
+  rerollStarter,
+}) {
   return (
     <section className="panel">
       <h2>Jugar partida</h2>
@@ -13,14 +22,37 @@ function SetupSection({ cleanNames, canStart, setStep, startGame, selectedCatego
         <h3>Jugadores</h3>
         <p className="muted strong">Prepara la partida y haz clic en "Iniciar partida".</p>
         {cleanNames.length === 0 && <p className="muted small">Agrega jugadores para comenzar.</p>}
+        {cleanNames.length > 0 && (
+          <div className="muted small" style={{ marginTop: '10px' }}>
+            <strong>Empieza:</strong> {startingPlayer || '—'}{' '}
+            <button
+              type="button"
+              className="reroll-btn"
+              onClick={rerollStarter}
+              style={{ marginLeft: 8 }}
+            >
+              <span aria-hidden="true">🎲</span> Cambiar
+            </button>
+          </div>
+        )}
       </div>
       <div className="names-grid">
-        {cleanNames.map((name, index) => (
-          <div key={`name-${index}`} className="name-card">
-            <small>Jugador</small>
-            <strong>{name || 'Jugador'}</strong>
-          </div>
-        ))}
+        {cleanNames.map((name, index) => {
+          const isStarter = startingPlayer && name === startingPlayer;
+          return (
+            <div
+              key={`name-${index}`}
+              className={`name-card ${isStarter ? 'is-starter' : ''}`}
+              title={isStarter ? 'Empieza la ronda' : undefined}
+            >
+              <div className="name-card-header">
+                <small>Jugador</small>
+                {isStarter && <span className="starter-icon" aria-label="Empieza la ronda">🚀</span>}
+              </div>
+              <strong>{name || 'Jugador'}</strong>
+            </div>
+          );
+        })}
       </div>
 
       <div className="actions spaced">
@@ -48,6 +80,8 @@ SetupSection.propTypes = {
   startGame: PropTypes.func.isRequired,
   selectedCategory: PropTypes.string,
   hasPlayers: PropTypes.bool.isRequired,
+  startingPlayer: PropTypes.string,
+  rerollStarter: PropTypes.func.isRequired,
 };
 
 export default SetupSection;

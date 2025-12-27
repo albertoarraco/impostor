@@ -2,13 +2,12 @@ import RevealFlow from './reveal-flow';
 import SetupSection from './components/setup-section';
 import VictoryFlow from './components/victory-flow';
 import { useGame } from "../../contexts/game-state-context";
-import { useState, useEffect } from 'react';
-import GameAnimation from '../../components/GameAnimation';
+import { useState, useEffect, useCallback } from 'react';
 import './lobby-panel.css';
 
 function LobbyPanel() {
   const {
-    navigation: { setStep, setConfigTab },
+    navigation: { setStep },
     lobby,
   } = useGame();
 
@@ -21,29 +20,41 @@ function LobbyPanel() {
     impostorsAlive,
     alliesAlive,
     eliminated,
-    revealIndex,
     revealed,
     allRevealed,
     currentPlayer,
+    startingPlayer,
     selectedCategory,
     startGame,
     setRevealed,
     setRevealIndex,
     setAllRevealed,
     resetRound,
-    setSecretWord,
     toggleEliminated,
+    setStartingPlayer,
   } = lobby;
 
   const [celebrationTrigger, setCelebrationTrigger] = useState(false);
   const [victoryStage, setVictoryStage] = useState("none"); // none | prompt | review | banner
 
+  const pickRandomStarter = useCallback(
+    (current) => {
+      const pool = cleanNames.filter((n) => n && n !== current);
+      const source = pool.length ? pool : cleanNames;
+      return source[Math.floor(Math.random() * source.length)] || "";
+    },
+    [cleanNames]
+  );
+
+  const handleReroll = useCallback(() => {
+    if (!cleanNames.length) return;
+    setStartingPlayer(pickRandomStarter(startingPlayer));
+  }, [cleanNames, pickRandomStarter, setStartingPlayer, startingPlayer]);
+
   // Disparar celebración cuando todos son revelados
   useEffect(() => {
     if (allRevealed && roles.length > 0) {
       setCelebrationTrigger(true);
-      
-      // Resetear el trigger para la próxima vez
       setTimeout(() => {
         setCelebrationTrigger(false);
       }, 100);
@@ -93,6 +104,8 @@ function LobbyPanel() {
           startGame={startGame}
           selectedCategory={selectedCategory}
           hasPlayers={hasPlayers}
+          startingPlayer={startingPlayer}
+          rerollStarter={handleReroll}
         />
       </div>
     );
@@ -108,12 +121,19 @@ function LobbyPanel() {
           startGame={startGame}
           selectedCategory={selectedCategory}
           hasPlayers={hasPlayers}
+          startingPlayer={startingPlayer}
+          rerollStarter={handleReroll}
         />
       )}
       {started && roles.length > 0 && !allRevealed && (<>
         <div className="reveal-box">
           <h3>Revelación de roles</h3>
           <p className="muted">Muestra la pantalla al jugador, revela su palabra y luego pasa.</p>
+          {startingPlayer && (
+            <p className="muted strong" style={{ marginTop: '6px' }}>
+              Empieza la ronda: <span style={{ color: '#c084fc' }}>{startingPlayer}</span>
+            </p>
+          )}
           <div className="actions spaced" style={{ marginTop: '12px' }}>
             <button
               className="btn ghost"

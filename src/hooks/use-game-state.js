@@ -104,6 +104,7 @@ function useGameState() {
       allRevealed: logic.allRevealed,
       secretWord: logic.secretWord,
       currentPlayer: logic.currentPlayer,
+      startingPlayer: logic.startingPlayer,
       selectedCategory: derived.categoryLabels[config.wordCategory] || config.wordCategory,
       startGame: logic.startGame,
       setStep: config.setStep,
@@ -114,6 +115,7 @@ function useGameState() {
       resetRound: logic.resetRound,
       setSecretWord: logic.setSecretWord,
       toggleEliminated: logic.toggleEliminated,
+      setStartingPlayer: logic.setStartingPlayer,
     },
     history: {
       list: persistence.history,

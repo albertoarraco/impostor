@@ -35,6 +35,7 @@ function useGameLogic({
   const [startedState, setStartedState] = useState(false);
   const [impostorCountState, setImpostorCountState] = useState(0);
   const [eliminatedState, setEliminatedState] = useState([]);
+  const [startingPlayerState, setStartingPlayerState] = useState("");
   const [hydrated, setHydrated] = useState(false);
 
   // mirror to external setters when provided
@@ -94,6 +95,22 @@ function useGameLogic({
     setEliminatedState(val);
   }, []);
 
+  const updateStartingPlayer = useCallback((val) => {
+    setStartingPlayerState(val);
+  }, []);
+
+  useEffect(() => {
+    if (!cleanNames.length) {
+      setStartingPlayerState("");
+      return;
+    }
+    setStartingPlayerState((prev) =>
+      prev && cleanNames.includes(prev)
+        ? prev
+        : cleanNames[Math.floor(Math.random() * cleanNames.length)] || ""
+    );
+  }, [cleanNames]);
+
   const startGame = useCallback(() => {
     if (!canStart) return;
     const impostorCount = randomImpostors
@@ -105,7 +122,7 @@ function useGameLogic({
         ? allWords
         : availableCategories[wordCategory]?.length
         ? availableCategories[wordCategory]
-        : [];
+        : extraWords;
 
     const randomWord =
       sourceWords.length > 0
@@ -114,6 +131,11 @@ function useGameLogic({
 
     const shuffled = [...cleanNames].sort(() => Math.random() - 0.5);
     const impostorSet = new Set(shuffled.slice(0, impostorCount));
+    const starter =
+      startingPlayerState && cleanNames.includes(startingPlayerState)
+        ? startingPlayerState
+        : shuffled[0] || cleanNames[0] || "";
+    updateStartingPlayer(starter);
     const assigned = cleanNames.map((name) => ({
       name,
       role: impostorSet.has(name) ? "Impostor" : randomWord || "Tripulante",
@@ -138,6 +160,7 @@ function useGameLogic({
           wordCategoryLabel: categoryLabels[wordCategory] || wordCategory,
           customCategories,
           extraWords,
+          startingPlayer: starter,
         },
         ...prev,
       ];
@@ -200,6 +223,9 @@ function useGameLogic({
         updateStarted(!!saved.started);
         updateImpostorCount(saved.impostorCount || 0);
         updateEliminated(saved.eliminated || []);
+        if (saved.startingPlayer) {
+          updateStartingPlayer(saved.startingPlayer);
+        }
       }
     } catch {
       /* ignore */
@@ -226,6 +252,7 @@ function useGameLogic({
       started: startedState,
       impostorCount: impostorCountState,
       eliminated: eliminatedState,
+      startingPlayer: startingPlayerState,
     };
     localStorage.setItem(storageKeys.game, JSON.stringify(payload));
   }, [
@@ -238,6 +265,7 @@ function useGameLogic({
     impostorCountState,
     eliminatedState,
     hydrated,
+    startingPlayerState,
   ]);
 
   const toggleEliminated = useCallback(
@@ -290,6 +318,8 @@ function useGameLogic({
     toggleEliminated,
     setEliminated: updateEliminated,
     setImpostorCount: updateImpostorCount,
+    startingPlayer: startingPlayerState,
+    setStartingPlayer: updateStartingPlayer,
     currentPlayer,
     totalGames,
     todayGames,
